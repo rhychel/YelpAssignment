@@ -1,4 +1,4 @@
-package com.rhymartmanchus.yelpassignment.ui.models
+package com.rhymartmanchus.yelpassignment.domain.models
 
 data class Coordinates (
     val latitude: Double?,

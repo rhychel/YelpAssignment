@@ -1,6 +1,6 @@
 package com.rhymartmanchus.yelpassignment.ui
 
-import com.rhymartmanchus.yelpassignment.ui.models.Coordinates
+import com.rhymartmanchus.yelpassignment.domain.models.Coordinates
 
 interface SearchBusinessContract {
 
