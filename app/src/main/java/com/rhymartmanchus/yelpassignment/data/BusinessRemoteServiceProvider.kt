@@ -27,12 +27,9 @@ class BusinessRemoteServiceProvider (
         return builder.build()
     }
 
-    override suspend fun fetchBusinesses(params: Map<String, String>): List<Business> =
+    private suspend fun <T> safeApiCall(request: suspend () -> T): T {
         try {
-            provideRetrofitInstance()
-                .create(YelpEndpoint::class.java)
-                .getBusinesses(params)
-                .map { it.toDomain() }
+            return request.invoke()
         } catch (e: HttpException) {
             val jsonObject = JSONObject(e.response()?.errorBody()?.string() ?: "{}")
             val errorJsonObject = jsonObject.getJSONObject("error")
@@ -43,5 +40,12 @@ class BusinessRemoteServiceProvider (
                 errorJsonObject.getString("field")
             )
         }
+    }
+
+    override suspend fun fetchBusinesses(params: Map<String, String>): List<Business> =
+        safeApiCall { provideRetrofitInstance()
+            .create(YelpEndpoint::class.java)
+            .getBusinesses(params)
+        }.map { it.toDomain() }
 
 }
