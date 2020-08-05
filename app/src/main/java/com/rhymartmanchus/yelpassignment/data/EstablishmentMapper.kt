@@ -1,5 +1,6 @@
 package com.rhymartmanchus.yelpassignment.data
 
+import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.domain.models.Address
 import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
 import com.rhymartmanchus.yelpassignment.domain.models.Establishment

@@ -1,5 +1,8 @@
 package com.rhymartmanchus.yelpassignment.data
 
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.domain.models.Establishment
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +15,11 @@ class BusinessRemoteServiceProvider (
         val builder = retrofit.newBuilder()
         builder.converterFactories().clear()
         builder.addConverterFactory(
-            GsonConverterFactory.create()
+            GsonConverterFactory.create(
+                GsonBuilder()
+                    .registerTypeAdapter(object : TypeToken<MutableList<BusinessRaw>>(){}.type, BusinessesConverter())
+                    .create()
+            )
         )
         return builder.build()
     }
