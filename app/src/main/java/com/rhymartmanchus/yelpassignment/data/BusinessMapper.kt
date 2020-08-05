@@ -3,11 +3,11 @@ package com.rhymartmanchus.yelpassignment.data
 import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.domain.models.Address
 import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
-import com.rhymartmanchus.yelpassignment.domain.models.Establishment
+import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Rating
 
-fun BusinessRaw.toDomain(): Establishment =
-    Establishment(
+fun BusinessRaw.toDomain(): Business =
+    Business(
         "Name",
         "URL",
         emptyList(),

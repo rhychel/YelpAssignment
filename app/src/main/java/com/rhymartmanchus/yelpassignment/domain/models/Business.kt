@@ -1,6 +1,6 @@
 package com.rhymartmanchus.yelpassignment.domain.models
 
-data class Establishment (
+data class Business (
     val name: String,
     val photoUrl: String,
     val categories: List<Category>,

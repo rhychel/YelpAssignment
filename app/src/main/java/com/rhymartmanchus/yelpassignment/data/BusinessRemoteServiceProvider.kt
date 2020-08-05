@@ -3,7 +3,7 @@ package com.rhymartmanchus.yelpassignment.data
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
-import com.rhymartmanchus.yelpassignment.domain.models.Establishment
+import com.rhymartmanchus.yelpassignment.domain.models.Business
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -24,7 +24,7 @@ class BusinessRemoteServiceProvider (
         return builder.build()
     }
 
-    override suspend fun fetchBusinesses(params: Map<String, String>): List<Establishment> =
+    override suspend fun fetchBusinesses(params: Map<String, String>): List<Business> =
         provideRetrofitInstance()
             .create(YelpEndpoint::class.java)
             .getBusinesses(params)
