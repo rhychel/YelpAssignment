@@ -117,7 +117,7 @@ class FetchBusinessesByLocationUseCaseTest {
     fun `should throw an exception when max limit value for api has exceeded the maximum`() = runBlocking {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
-                throw HttpRequestException()
+                throw HttpRequestException("VALIDATION_ERROR", "51 something", "limit")
             }
 
         useCase.execute(

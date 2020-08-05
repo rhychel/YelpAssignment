@@ -2,6 +2,7 @@ package com.rhymartmanchus.yelpassignment.data
 
 import androidx.test.runner.AndroidJUnit4
 import com.rhymartmanchus.yelpassignment.BuildConfig
+import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -10,6 +11,7 @@ import okhttp3.Request
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import retrofit2.HttpException
 import retrofit2.Retrofit
 
 
@@ -54,5 +56,21 @@ class BusinessRemoteServiceProviderTest {
 
         assertTrue(result.isNotEmpty())
         assertEquals(20, result.size)
+    }
+
+    @Test
+    fun throwAndExceptionWhenLimitValueExceedsMaximum() = runBlocking {
+        try {
+            businessesRemoteService.fetchBusinesses(
+                mapOf(
+                    Pair("location", "Camarines Sur"),
+                    Pair("limit", "51")
+                )
+            )
+        } catch (e: HttpRequestException) {
+            assertTrue(e.field == "limit")
+        }
+
+        Unit
     }
 }
