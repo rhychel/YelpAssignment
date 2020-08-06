@@ -13,7 +13,7 @@ suspend fun <T> safeApiCall(request: suspend () -> T): T {
         val result = request.invoke()
         if(result is Collection<*>)
             if(result.size == 0)
-                throw NoDataException("No available data")
+                throw NoDataException("No available data for $result")
         return request.invoke()
     } catch (e: HttpException) {
         val jsonObject = JSONObject(e.response()?.errorBody()?.string() ?: "{}")
