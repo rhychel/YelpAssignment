@@ -1,4 +1,4 @@
-package com.rhymartmanchus.yelpassignment.domain.interactors
+package com.rhymartmanchus.yelpassignment
 
 import org.junit.Test
 import java.util.*

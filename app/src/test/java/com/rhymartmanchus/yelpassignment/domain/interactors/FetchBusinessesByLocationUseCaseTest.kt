@@ -1,8 +1,8 @@
 package com.rhymartmanchus.yelpassignment.domain.interactors
 
-import com.google.gson.reflect.TypeToken
+import com.rhymartmanchus.yelpassignment.argumentCaptor
+import com.rhymartmanchus.yelpassignment.capture
 import com.rhymartmanchus.yelpassignment.coroutines.TestAppCoroutinesDispatcher
-import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
@@ -13,7 +13,6 @@ import org.junit.Before
 
 import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -120,8 +119,13 @@ class FetchBusinessesByLocationUseCaseTest {
             )
         )
 
-        val captor = argumentCaptor<Map<String, String>>()
-        verify(gateway).searchBusinesses(capture(captor))
+        val captor =
+            argumentCaptor<Map<String, String>>()
+        verify(gateway).searchBusinesses(
+            capture(
+                captor
+            )
+        )
 
         assertEquals(
             mapOf(
@@ -168,9 +172,14 @@ class FetchBusinessesByLocationUseCaseTest {
             )
         )
 
-        val captor = argumentCaptor<Map<String, String>>()
+        val captor =
+            argumentCaptor<Map<String, String>>()
 
-        verify(gateway).searchBusinesses(capture(captor))
+        verify(gateway).searchBusinesses(
+            capture(
+                captor
+            )
+        )
 
         assertTrue(captor.value.containsKey("sort_by"))
         assertTrue(captor.value["sort_by"]!! == "rating")
@@ -190,9 +199,14 @@ class FetchBusinessesByLocationUseCaseTest {
             )
         )
 
-        val captor = argumentCaptor<Map<String, String>>()
+        val captor =
+            argumentCaptor<Map<String, String>>()
 
-        verify(gateway).searchBusinesses(capture(captor))
+        verify(gateway).searchBusinesses(
+            capture(
+                captor
+            )
+        )
 
         assertTrue(captor.value.containsKey("sort_by"))
         assertTrue(captor.value["sort_by"]!! == "distance")
@@ -212,9 +226,14 @@ class FetchBusinessesByLocationUseCaseTest {
             )
         )
 
-        val captor = argumentCaptor<Map<String, String>>()
+        val captor =
+            argumentCaptor<Map<String, String>>()
 
-        verify(gateway).searchBusinesses(capture(captor))
+        verify(gateway).searchBusinesses(
+            capture(
+                captor
+            )
+        )
 
         assertFalse(captor.value.containsKey("sort_by"))
     }
