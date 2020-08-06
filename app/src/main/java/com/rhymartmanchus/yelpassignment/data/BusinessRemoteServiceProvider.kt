@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -29,6 +30,10 @@ class BusinessRemoteServiceProvider (
 
     private suspend fun <T> safeApiCall(request: suspend () -> T): T {
         try {
+            val result = request.invoke()
+            if(result is Collection<*>)
+                if(result.size == 0)
+                    throw NoDataException("No available data")
             return request.invoke()
         } catch (e: HttpException) {
             val jsonObject = JSONObject(e.response()?.errorBody()?.string() ?: "{}")

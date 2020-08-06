@@ -6,6 +6,7 @@ import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -63,6 +64,26 @@ class FetchBusinessesByLocationUseCaseTest {
         )
 
         assertEquals(2, result.businesses.size)
+    }
+
+    @Test(expected = NoDataException::class)
+    fun `should throw an exception when no businesses found in a given coordinates`() = runBlocking {
+        `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
+            .then {
+                throw NoDataException("No businesses found")
+            }
+
+        useCase.execute(
+            FetchBusinessesByLocationUseCase.Params(
+                20,
+                0,
+                13.000,
+                123.000,
+                SortingStrategy.Default
+            )
+        )
+
+        Unit
     }
 
     @Test(expected = SocketTimeoutException::class)
