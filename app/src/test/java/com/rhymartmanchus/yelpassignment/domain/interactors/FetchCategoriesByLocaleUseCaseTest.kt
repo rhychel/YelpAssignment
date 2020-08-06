@@ -17,6 +17,11 @@ class FetchCategoriesByLocaleUseCaseTest {
     }
 
     @Test
+    fun `params should include limit and offset to page the categories`() {
+        TODO("Not yet implemented")
+    }
+
+    @Test
     fun `should throw an exception when request failed`() {
         TODO("Not yet implemented")
     }

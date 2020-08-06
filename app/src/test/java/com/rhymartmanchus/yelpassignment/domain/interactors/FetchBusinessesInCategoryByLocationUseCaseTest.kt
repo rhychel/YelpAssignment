@@ -35,7 +35,7 @@ class FetchBusinessesInCategoryByLocationUseCaseTest {
     }
 
     @Test(expected = HttpRequestException::class)
-    fun `should throw an exception when max limit value for api has exceeded the maximum`() = runBlocking {
+    fun `should throw an exception when max limit value for api has exceeded the maximum 50`() = runBlocking {
     }
 
     @Test

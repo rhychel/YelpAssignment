@@ -139,7 +139,7 @@ class FetchBusinessesByLocationUseCaseTest {
     }
 
     @Test(expected = HttpRequestException::class)
-    fun `should throw an exception when max limit value for api has exceeded the maximum`() = runBlocking {
+    fun `should throw an exception when max limit value for api has exceeded the maximum = 50`() = runBlocking {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
                 throw HttpRequestException("VALIDATION_ERROR", "51 something", "limit")
@@ -147,7 +147,7 @@ class FetchBusinessesByLocationUseCaseTest {
 
         useCase.execute(
             FetchBusinessesByLocationUseCase.Params(
-                20,
+                51,
                 0,
                 13.00,
                 123.00,

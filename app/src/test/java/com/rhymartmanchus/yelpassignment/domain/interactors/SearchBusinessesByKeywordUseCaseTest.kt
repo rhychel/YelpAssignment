@@ -68,7 +68,7 @@ class SearchBusinessesByKeywordUseCaseTest {
     }
 
     @Test
-    fun `should throw an exception when limit param reached the maximum value`() {
+    fun `should throw an exception when limit param reached the maximum value 50`() {
         TODO("Not yet implemented")
     }
 }
