@@ -7,6 +7,7 @@ import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NetworkErrorException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
@@ -229,11 +230,11 @@ class SearchBusinessesInCategoryByKeywordUseCaseTest {
         Unit
     }
 
-    @Test(expected = IOException::class)
-    fun `should throw an exception when netword error happened`() = runBlocking {
+    @Test(expected = NetworkErrorException::class)
+    fun `should throw an exception when network error happened`() = runBlocking {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
-                throw IOException()
+                throw NetworkErrorException(IOException())
             }
 
         useCase.execute(

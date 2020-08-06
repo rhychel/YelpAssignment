@@ -7,6 +7,7 @@ import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NetworkErrorException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
@@ -21,6 +22,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import java.io.IOException
 import java.net.SocketTimeoutException
 
 class FetchBusinessesInCategoryByLocationUseCaseTest {
@@ -98,11 +100,11 @@ class FetchBusinessesInCategoryByLocationUseCaseTest {
         Unit
     }
 
-    @Test(expected = SocketTimeoutException::class)
+    @Test(expected = NetworkErrorException::class)
     fun `should throw an exception when nothing is responded`() = runBlocking {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
-                throw SocketTimeoutException()
+                throw NetworkErrorException(SocketTimeoutException())
             }
 
         useCase.execute(

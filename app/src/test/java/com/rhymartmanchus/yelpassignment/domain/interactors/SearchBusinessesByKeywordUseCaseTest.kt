@@ -7,6 +7,7 @@ import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NetworkErrorException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import junit.framework.Assert.assertEquals
@@ -141,11 +142,11 @@ class SearchBusinessesByKeywordUseCaseTest {
         assertEquals("rating", captor.value.get("sort_by"))
     }
 
-    @Test(expected = IOException::class)
+    @Test(expected = NetworkErrorException::class)
     fun `should throw an exception when ioexception happened`() = runBlocking {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
-                throw IOException()
+                throw NetworkErrorException(IOException())
             }
 
         useCase.execute(

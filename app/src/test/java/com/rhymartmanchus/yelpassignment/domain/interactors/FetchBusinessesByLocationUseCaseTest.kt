@@ -7,6 +7,7 @@ import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NetworkErrorException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import kotlinx.coroutines.runBlocking
@@ -86,11 +87,11 @@ class FetchBusinessesByLocationUseCaseTest {
         Unit
     }
 
-    @Test(expected = SocketTimeoutException::class)
+    @Test(expected = NetworkErrorException::class)
     fun `should throw an exception when nothing is responded`() = runBlocking {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
-                throw SocketTimeoutException()
+                throw NetworkErrorException(SocketTimeoutException())
             }
 
         useCase.execute(
