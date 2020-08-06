@@ -3,6 +3,7 @@ package com.rhymartmanchus.yelpassignment.domain.interactors
 import com.rhymartmanchus.yelpassignment.coroutines.AppCoroutineDispatcher
 import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
+import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 
@@ -12,10 +13,15 @@ class FetchBusinessesInCategoryByLocationUseCase (
 ) : UseCase<FetchBusinessesInCategoryByLocationUseCase.Response,
         FetchBusinessesInCategoryByLocationUseCase.Params>(appCoroutinesDispatcher) {
 
-    override suspend fun run(params: Params): Response =
-        Response(
+    override suspend fun run(params: Params): Response {
+
+        if(params.limit > 50)
+            throw MaxLimitParamException(50)
+
+        return Response(
             gateway.searchBusinesses(generateMapParams(params))
         )
+    }
 
     private fun generateMapParams(params: Params): Map<String, String> =
         when(params.sortingStrategy) {

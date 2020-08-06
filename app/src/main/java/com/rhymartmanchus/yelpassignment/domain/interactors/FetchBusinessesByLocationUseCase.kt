@@ -3,6 +3,7 @@ package com.rhymartmanchus.yelpassignment.domain.interactors
 import com.rhymartmanchus.yelpassignment.coroutines.AppCoroutineDispatcher
 import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
+import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 
 class FetchBusinessesByLocationUseCase(
@@ -23,6 +24,9 @@ class FetchBusinessesByLocationUseCase(
     )
 
     override suspend fun run(params: Params): Response {
+
+        if(params.limit > 50)
+            throw MaxLimitParamException(50)
 
         val result = gateway.searchBusinesses(
             generateMapParams(params)

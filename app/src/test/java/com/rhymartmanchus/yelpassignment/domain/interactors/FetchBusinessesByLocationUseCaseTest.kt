@@ -6,6 +6,7 @@ import com.rhymartmanchus.yelpassignment.coroutines.TestAppCoroutinesDispatcher
 import com.rhymartmanchus.yelpassignment.domain.BusinessesGateway
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
+import com.rhymartmanchus.yelpassignment.domain.exceptions.MaxLimitParamException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import kotlinx.coroutines.runBlocking
@@ -138,13 +139,8 @@ class FetchBusinessesByLocationUseCaseTest {
         )
     }
 
-    @Test(expected = HttpRequestException::class)
+    @Test(expected = MaxLimitParamException::class)
     fun `should throw an exception when max limit value for api has exceeded the maximum = 50`() = runBlocking {
-        `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
-            .then {
-                throw HttpRequestException("VALIDATION_ERROR", "51 something", "limit")
-            }
-
         useCase.execute(
             FetchBusinessesByLocationUseCase.Params(
                 51,
