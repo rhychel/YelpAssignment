@@ -11,7 +11,7 @@ import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class BusinessRemoteServiceProvider (
+class BusinessesRemoteServiceProvider (
     private val retrofit: Retrofit
 ) : BusinessesRemoteService {
 

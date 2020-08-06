@@ -1,7 +1,6 @@
 package com.rhymartmanchus.yelpassignment.data
 
 import androidx.test.runner.AndroidJUnit4
-import com.rhymartmanchus.yelpassignment.BuildConfig
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -11,12 +10,11 @@ import okhttp3.Request
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import retrofit2.HttpException
 import retrofit2.Retrofit
 
 
 @RunWith(AndroidJUnit4::class)
-class BusinessRemoteServiceProviderTest {
+class BusinessesRemoteServiceProviderTest {
 
     companion object {
         const val API_KEY = "RAIonxmXViH_CSicOY-sPSPLbAhjZcE2-1NlTe25GM00Uop-HWMutrRswSwpBd5PfZbFaSikKPNqA_dQsZBjqOllTtU0LIy9SsQ5_Can177T8jeXrP5rYWbK4qQnX3Yx"
@@ -36,7 +34,7 @@ class BusinessRemoteServiceProviderTest {
 
     @Before
     fun setUp() {
-        businessesRemoteService = BusinessRemoteServiceProvider(
+        businessesRemoteService = BusinessesRemoteServiceProvider(
             Retrofit.Builder()
                 .baseUrl("https://api.yelp.com")
                 .client(okHttpClient)
