@@ -39,7 +39,10 @@ class SearchBusinessesInCategoryByKeywordUseCaseTest {
 
         category = Category(
             "my-category",
-            "My Category"
+            "My Category",
+            listOf(
+                "1-1"
+            )
         )
 
         useCase = SearchBusinessesInCategoryByKeywordUseCase(

@@ -60,6 +60,11 @@ class FetchCategoriesByLocaleUseCaseTest {
             )
         )
 
+        val inOrder = inOrder(gateway)
+        inOrder.verify(gateway).fetchCategories(any())
+        inOrder.verify(gateway).saveCategories(any())
+        inOrder.verifyNoMoreInteractions()
+
         assertEquals(3, result.categories.size)
     }
 

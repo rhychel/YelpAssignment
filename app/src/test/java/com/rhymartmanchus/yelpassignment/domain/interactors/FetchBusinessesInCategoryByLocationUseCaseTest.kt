@@ -40,7 +40,10 @@ class FetchBusinessesInCategoryByLocationUseCaseTest {
 
         category = Category(
             "my-category",
-            "My Category"
+            "My Category",
+            listOf(
+                "1-2"
+            )
         )
 
         useCase = FetchBusinessesInCategoryByLocationUseCase(

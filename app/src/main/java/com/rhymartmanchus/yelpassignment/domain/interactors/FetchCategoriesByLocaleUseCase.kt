@@ -17,8 +17,11 @@ class FetchCategoriesByLocaleUseCase (
             params.locale.toYelpLocaleFormat()
         )
 
+        val category = gateway.fetchCategories(yelpLocale)
+        gateway.saveCategories(category)
+
         return Response(
-            gateway.fetchCategories(yelpLocale)
+            category
         )
     }
 
