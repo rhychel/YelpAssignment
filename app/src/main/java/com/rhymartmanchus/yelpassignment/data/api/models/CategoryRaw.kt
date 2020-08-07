@@ -1,4 +1,4 @@
-package com.rhymartmanchus.yelpassignment.data.models
+package com.rhymartmanchus.yelpassignment.data.api.models
 
 import com.google.gson.annotations.SerializedName
 
@@ -8,6 +8,9 @@ data class CategoryRaw (
     val alias: String,
 
     @SerializedName("title")
-    val title: String
+    val title: String,
+
+    @SerializedName("parent_aliases")
+    val parentAliases: List<String>
 
 )

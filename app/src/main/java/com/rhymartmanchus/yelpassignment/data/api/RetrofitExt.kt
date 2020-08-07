@@ -1,4 +1,4 @@
-package com.rhymartmanchus.yelpassignment.data
+package com.rhymartmanchus.yelpassignment.data.api
 
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NetworkErrorException

@@ -1,4 +1,4 @@
-package com.rhymartmanchus.yelpassignment.data.models
+package com.rhymartmanchus.yelpassignment.data.api.models
 
 import com.google.gson.annotations.SerializedName
 

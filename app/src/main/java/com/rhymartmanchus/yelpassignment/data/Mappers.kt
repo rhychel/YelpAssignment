@@ -1,10 +1,8 @@
 package com.rhymartmanchus.yelpassignment.data
 
-import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
-import com.rhymartmanchus.yelpassignment.domain.models.Address
-import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
-import com.rhymartmanchus.yelpassignment.domain.models.Business
-import com.rhymartmanchus.yelpassignment.domain.models.Rating
+import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
+import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
+import com.rhymartmanchus.yelpassignment.domain.models.*
 
 fun BusinessRaw.toDomain(): Business =
     Business(
@@ -21,4 +19,11 @@ fun BusinessRaw.toDomain(): Business =
         ),
         Rating(4.5, "Reviews from 1000 users"),
         emptyList()
+    )
+
+fun CategoryRaw.toDomain(): Category =
+    Category(
+        alias,
+        title,
+        parentAliases
     )

@@ -1,10 +1,10 @@
-package com.rhymartmanchus.yelpassignment.data
+package com.rhymartmanchus.yelpassignment.data.api
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.rhymartmanchus.yelpassignment.data.models.BusinessRaw
+import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
 import java.lang.reflect.Type
 
 class BusinessesConverter : JsonDeserializer<List<BusinessRaw>> {

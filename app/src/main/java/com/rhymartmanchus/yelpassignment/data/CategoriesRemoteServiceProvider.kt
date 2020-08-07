@@ -2,17 +2,17 @@ package com.rhymartmanchus.yelpassignment.data
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.rhymartmanchus.yelpassignment.data.api.BusinessesConverter
+import com.rhymartmanchus.yelpassignment.data.api.CategoriesConverter
 import com.rhymartmanchus.yelpassignment.data.api.YelpEndpoint
-import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
+import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
 import com.rhymartmanchus.yelpassignment.data.api.safeApiCall
-import com.rhymartmanchus.yelpassignment.domain.models.Business
+import com.rhymartmanchus.yelpassignment.domain.models.Category
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class BusinessesRemoteServiceProvider (
+class CategoriesRemoteServiceProvider (
     private val retrofit: Retrofit
-) : BusinessesRemoteService {
+) : CategoriesRemoteService {
 
     private fun provideRetrofitInstance(): Retrofit {
         val builder = retrofit.newBuilder()
@@ -20,8 +20,8 @@ class BusinessesRemoteServiceProvider (
         builder.addConverterFactory(
             GsonConverterFactory.create(
                 GsonBuilder()
-                    .registerTypeAdapter(object : TypeToken<MutableList<BusinessRaw>>(){}.type,
-                        BusinessesConverter()
+                    .registerTypeAdapter(object : TypeToken<MutableList<CategoryRaw>>(){}.type,
+                        CategoriesConverter()
                     )
                     .create()
             )
@@ -29,11 +29,11 @@ class BusinessesRemoteServiceProvider (
         return builder.build()
     }
 
-    override suspend fun fetchBusinesses(params: Map<String, String>): List<Business> =
+
+    override suspend fun fetchCategoriesByLocale(locale: String): List<Category> =
         safeApiCall {
             provideRetrofitInstance()
                 .create(YelpEndpoint::class.java)
-                .getBusinesses(params)
+                .getCategories(locale)
         }.map { it.toDomain() }
-
 }

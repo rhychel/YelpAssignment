@@ -1,6 +1,7 @@
 package com.rhymartmanchus.yelpassignment.data
 
 import androidx.test.runner.AndroidJUnit4
+import com.rhymartmanchus.yelpassignment.data.AndroidTestHelper.okHttpClient
 import com.rhymartmanchus.yelpassignment.domain.exceptions.HttpRequestException
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -16,21 +17,8 @@ import retrofit2.Retrofit
 @RunWith(AndroidJUnit4::class)
 class BusinessesRemoteServiceProviderTest {
 
-    companion object {
-        const val API_KEY = "RAIonxmXViH_CSicOY-sPSPLbAhjZcE2-1NlTe25GM00Uop-HWMutrRswSwpBd5PfZbFaSikKPNqA_dQsZBjqOllTtU0LIy9SsQ5_Can177T8jeXrP5rYWbK4qQnX3Yx"
-    }
     private lateinit var businessesRemoteService: BusinessesRemoteService
 
-    private val okHttpClient = OkHttpClient()
-        .newBuilder()
-        .addInterceptor { chain ->
-            val request: Request.Builder = chain.request()
-                .newBuilder()
-            request.addHeader("Authorization", "Bearer $API_KEY")
-
-            chain.proceed(request.build())
-        }
-        .build()
 
     @Before
     fun setUp() {
