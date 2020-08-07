@@ -86,9 +86,9 @@ class CategoriesLocalServiceProviderTest {
                 )
             }
         }
-        val categories = categoriesLocalService.getSubcategoryAttributedCategories()
+        val categories = categoriesLocalService.getSubcategoryAttributedCategories(3, 0)
 
-        assertEquals(6, categories.size)
+        assertEquals(3, categories.size)
 
         categories.forEach {
             println("Category: ${it.alias}, Parents: ${it.subcategories.size}")
@@ -99,6 +99,6 @@ class CategoriesLocalServiceProviderTest {
     fun saveCategories() = runBlocking {
         categoriesLocalService.saveCategories(categories)
 
-        assertEquals(6, db.categoriesDao().getSubcategoryAttributedCategories().size)
+        assertEquals(6, db.categoriesDao().getSubcategoryAttributedCategories(6, 0).size)
     }
 }

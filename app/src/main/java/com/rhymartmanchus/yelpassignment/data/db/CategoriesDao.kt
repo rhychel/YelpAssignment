@@ -9,8 +9,8 @@ import androidx.room.Transaction
 interface CategoriesDao {
 
     @Transaction
-    @Query("SELECT * FROM categories")
-    suspend fun getSubcategoryAttributedCategories(): List<SubcategoryAttributedCategoryDB>
+    @Query("SELECT * FROM categories LIMIT :limit OFFSET :offset")
+    suspend fun getSubcategoryAttributedCategories(limit: Long, offset: Long): List<SubcategoryAttributedCategoryDB>
 
     @Insert
     suspend fun saveCategory(categoryDB: CategoryDB)

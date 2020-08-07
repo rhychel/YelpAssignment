@@ -5,7 +5,7 @@ import com.rhymartmanchus.yelpassignment.domain.models.SubcategoryAttributedCate
 
 interface CategoriesLocalService {
 
-    suspend fun getSubcategoryAttributedCategories(): List<SubcategoryAttributedCategory>
+    suspend fun getSubcategoryAttributedCategories(limit: Long, offset: Long): List<SubcategoryAttributedCategory>
     suspend fun saveCategories(categories: List<Category>)
 
 }
