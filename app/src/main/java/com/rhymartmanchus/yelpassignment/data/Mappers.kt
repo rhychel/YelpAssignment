@@ -2,6 +2,8 @@ package com.rhymartmanchus.yelpassignment.data
 
 import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
+import com.rhymartmanchus.yelpassignment.data.db.CategoryDB
+import com.rhymartmanchus.yelpassignment.data.db.SubcategoryAttributedCategoryDB
 import com.rhymartmanchus.yelpassignment.domain.models.*
 
 fun BusinessRaw.toDomain(): Business =
@@ -26,4 +28,24 @@ fun CategoryRaw.toDomain(): Category =
         alias,
         title,
         parentAliases
+    )
+
+fun Category.toDB(): CategoryDB =
+    CategoryDB(
+        alias,
+        title
+    )
+
+fun SubcategoryAttributedCategoryDB.toDomain(): SubcategoryAttributedCategory =
+    SubcategoryAttributedCategory(
+        category.alias,
+        category.title,
+        subcategories.map { it.toDomain(listOf(category.alias)) }
+    )
+
+fun CategoryDB.toDomain(parents: List<String>): Category =
+    Category(
+        alias,
+        title,
+        parents
     )
