@@ -39,6 +39,9 @@ android {
         jvmTarget = "1.8"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
 
 }
 
@@ -66,5 +69,8 @@ dependencies {
 //    Mockito
     implementation "org.mockito:mockito-core:3.3.3"
     testImplementation "org.mockito:mockito-inline:3.3.3"
+
+//    Material Design
+    implementation 'com.google.android.material:material:1.2.0'
 
 }
