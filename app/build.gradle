@@ -73,4 +73,7 @@ dependencies {
 //    Material Design
     implementation 'com.google.android.material:material:1.2.0'
 
+//    edmrtnz
+    implementation 'com.github.edwnmrtnz:SimpleLocationHelper:v1.0'
+    implementation 'com.github.edwnmrtnz:betterpermissions-android:v.1.0.0'
 }
