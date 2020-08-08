@@ -1,8 +1,7 @@
 package com.rhymartmanchus.yelpassignment.data
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.rhymartmanchus.yelpassignment.data.db.CategoryAssocDB
-import com.rhymartmanchus.yelpassignment.data.db.CategoryDB
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryAssocDB
 import com.rhymartmanchus.yelpassignment.data.db.YelpDatabase
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 import kotlinx.coroutines.runBlocking
@@ -82,7 +81,10 @@ class CategoriesLocalServiceProviderTest {
             db.categoriesDao().saveCategory(it.toDB())
             it.parentAliases.forEach { parent ->
                 db.categoriesDao().saveCategoryAssoc(
-                    CategoryAssocDB(parent, it.alias)
+                    CategoryAssocDB(
+                        parent,
+                        it.alias
+                    )
                 )
             }
         }

@@ -1,8 +1,10 @@
-package com.rhymartmanchus.yelpassignment.data.db
+package com.rhymartmanchus.yelpassignment.data.db.models
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryAssocDB
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
 
 data class SubcategoryAttributedCategoryDB (
 

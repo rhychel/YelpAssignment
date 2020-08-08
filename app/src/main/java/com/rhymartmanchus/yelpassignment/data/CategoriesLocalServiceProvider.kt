@@ -1,7 +1,7 @@
 package com.rhymartmanchus.yelpassignment.data
 
 import com.rhymartmanchus.yelpassignment.data.db.CategoriesDao
-import com.rhymartmanchus.yelpassignment.data.db.CategoryAssocDB
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryAssocDB
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 import com.rhymartmanchus.yelpassignment.domain.models.SubcategoryAttributedCategory
@@ -24,7 +24,10 @@ class CategoriesLocalServiceProvider (
             dao.saveCategory(it.toDB())
             it.parentAliases.forEach { parent ->
                 dao.saveCategoryAssoc(
-                    CategoryAssocDB(parent, it.alias)
+                    CategoryAssocDB(
+                        parent,
+                        it.alias
+                    )
                 )
             }
         }

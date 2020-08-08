@@ -1,4 +1,4 @@
-package com.rhymartmanchus.yelpassignment.data.db
+package com.rhymartmanchus.yelpassignment.data.db.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

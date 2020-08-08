@@ -4,6 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryAssocDB
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
+import com.rhymartmanchus.yelpassignment.data.db.models.SubcategoryAttributedCategoryDB
 
 @Dao
 interface CategoriesDao {

@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryAssocDB
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
 
 @Database(
     entities = [

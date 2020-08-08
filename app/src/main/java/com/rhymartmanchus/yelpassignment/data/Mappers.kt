@@ -2,8 +2,8 @@ package com.rhymartmanchus.yelpassignment.data
 
 import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
-import com.rhymartmanchus.yelpassignment.data.db.CategoryDB
-import com.rhymartmanchus.yelpassignment.data.db.SubcategoryAttributedCategoryDB
+import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
+import com.rhymartmanchus.yelpassignment.data.db.models.SubcategoryAttributedCategoryDB
 import com.rhymartmanchus.yelpassignment.domain.models.*
 
 fun BusinessRaw.toDomain(): Business =
