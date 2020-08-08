@@ -1,5 +1,6 @@
 package com.rhymartmanchus.yelpassignment.ui
 
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.Location
@@ -28,6 +29,7 @@ import com.rhymartmanchus.yelpassignment.databinding.ActivitySearchBusinessBindi
 import com.rhymartmanchus.yelpassignment.databinding.PopupWindowSortingBinding
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
+import com.rhymartmanchus.yelpassignment.domain.models.Category
 import com.rhymartmanchus.yelpassignment.ui.adapters.SortingStrategyAdapter
 import kotlinx.coroutines.*
 import java.io.IOException
@@ -106,6 +108,9 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
             popupWindow.width = 400
             popupWindow.isOutsideTouchable = true
             popupWindow.showAsDropDown(it, 0, -98)
+        }
+        binder.btnCategory.setOnClickListener {
+            presenter.onCategoriesClicked()
         }
     }
 
@@ -240,6 +245,28 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
 
     override fun enlistResults(businesses: List<Business>) {
         Log.e("REsults", businesses.joinToString { it.name })
+    }
+
+    override fun proceedToCategories(category: Category?) {
+        val intent = Intent(this, CategoriesActivity::class.java)
+        startActivityForResult(intent, 1000)
+    }
+
+    override fun setCategoriesButtonText(categoryTitle: String) {
+        binder.btnCategory.text = categoryTitle
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1000) {
+            if(resultCode == 200) {
+                val category = data?.getParcelableExtra<Category>("category")!!
+                if(category.alias == "yelph-all")
+                    presenter.invalidateCategory()
+                else
+                    presenter.takeCategory(category)
+            }
+        }
     }
 
 }

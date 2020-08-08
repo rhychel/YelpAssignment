@@ -26,6 +26,9 @@
         <activity android:name=".ui.SearchBusinessActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.CategoriesActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

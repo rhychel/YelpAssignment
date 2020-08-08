@@ -95,4 +95,11 @@ object InstanceProvider {
         )
     }
 
+    val getSubcategoryAttributedCategoriesUseCase: GetSubcategoryAttributedCategoriesUseCase by lazy {
+        GetSubcategoryAttributedCategoriesUseCase(
+            appCoroutinesDispatcher,
+            categoriesGateway
+        )
+    }
+
 }

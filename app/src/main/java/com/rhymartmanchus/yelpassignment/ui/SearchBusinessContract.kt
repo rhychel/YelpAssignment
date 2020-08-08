@@ -18,6 +18,10 @@ interface SearchBusinessContract {
 
         fun enlistResults(businesses: List<Business>)
 
+        fun proceedToCategories(category: Category?)
+
+        fun setCategoriesButtonText(categoryTitle: String)
+
     }
 
     interface Presenter {
@@ -36,6 +40,8 @@ interface SearchBusinessContract {
         fun onSearchClicked()
 
         fun takeSortingStrategy(sortingStrategy: SortingStrategy)
+
+        fun onCategoriesClicked()
 
     }
 

@@ -51,10 +51,12 @@ class SearchBusinessPresenter (
 
     override fun takeCategory(category: Category) {
         this.category = category
+        view.setCategoriesButtonText(category.title)
     }
 
     override fun invalidateCategory() {
         category = null
+        view.setCategoriesButtonText("All Categories")
     }
 
     override fun onGettingLocationStarted() {
@@ -177,6 +179,10 @@ class SearchBusinessPresenter (
         )
 
         renderBusinessesResults(result.businesses)
+    }
+
+    override fun onCategoriesClicked() {
+        view.proceedToCategories(category)
     }
 
 }
