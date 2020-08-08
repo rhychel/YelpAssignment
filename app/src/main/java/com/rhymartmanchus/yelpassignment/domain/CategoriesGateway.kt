@@ -9,5 +9,10 @@ interface CategoriesGateway {
     suspend fun getSubcategoryAttributedCategory(limit: Long, offset: Long): List<SubcategoryAttributedCategory>
     suspend fun saveCategories(categories: List<Category>)
     suspend fun invalidateCategories()
+    suspend fun getSubcategoryAttributedCategoryByAlias(
+        alias: String,
+        limit: Long,
+        offset: Long
+    ): List<SubcategoryAttributedCategory>
 
 }

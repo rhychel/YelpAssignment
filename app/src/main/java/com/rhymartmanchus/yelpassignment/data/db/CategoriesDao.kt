@@ -10,7 +10,15 @@ interface CategoriesDao {
 
     @Transaction
     @Query("SELECT * FROM categories LIMIT :limit OFFSET :offset")
-    suspend fun getSubcategoryAttributedCategories(limit: Long, offset: Long): List<SubcategoryAttributedCategoryDB>
+    suspend fun getSubcategoryAttributedCategories(
+        limit: Long, offset: Long
+    ): List<SubcategoryAttributedCategoryDB>
+
+    @Transaction
+    @Query("SELECT c.* FROM category_assoc ca, categories c WHERE ca.parent_alias = :alias AND c.alias = ca.child_alias LIMIT :limit OFFSET :offset")
+    suspend fun getSubcategoryAttributedCategoriesByAlias(
+        alias: String, limit: Long, offset: Long
+    ): List<SubcategoryAttributedCategoryDB>
 
     @Insert
     suspend fun saveCategory(categoryDB: CategoryDB)

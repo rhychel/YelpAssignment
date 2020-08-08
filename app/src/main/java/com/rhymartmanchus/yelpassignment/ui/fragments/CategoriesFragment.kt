@@ -15,6 +15,8 @@ class CategoriesFragment (
     private val includeAllCategoriesItem: Boolean = false
 ) : Fragment(R.layout.fragment_categories), CategoriesContract.View {
 
+    private var parentAlias: String = ""
+
     private lateinit var binder: FragmentCategoriesBinding
 
     private val adapter: CategoriesAdapter by lazy {
@@ -36,19 +38,13 @@ class CategoriesFragment (
         binder.rvCategories.adapter = adapter
 
         if(includeAllCategoriesItem)
-            addAllCategoriesOnList()
-
-        presenter.onViewCreated()
+            presenter.onViewCreatedForRoot()
+        else
+            presenter.onViewCreatedForSubCategories(parentAlias)
     }
 
-    private fun addAllCategoriesOnList() {
-        adapter.add(
-            SubcategoryAttributedCategory(
-                "yelph-all",
-                "All Categories",
-                emptyList()
-            )
-        )
+    override fun takeParentAlias(alias: String) {
+        this.parentAlias = alias
     }
 
     override fun enlistCategories(categories: List<SubcategoryAttributedCategory>) {

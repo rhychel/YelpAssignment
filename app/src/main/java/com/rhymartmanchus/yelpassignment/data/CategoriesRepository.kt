@@ -26,4 +26,13 @@ class CategoriesRepository (
         local.deleteCategories()
         local.deleteCategoryAssocs()
     }
+
+    override suspend fun getSubcategoryAttributedCategoryByAlias(
+        alias: String,
+        limit: Long,
+        offset: Long
+    ): List<SubcategoryAttributedCategory> =
+        local.getSubcategoryAttributedCategoriesByAlias(
+            alias, limit, offset
+        )
 }

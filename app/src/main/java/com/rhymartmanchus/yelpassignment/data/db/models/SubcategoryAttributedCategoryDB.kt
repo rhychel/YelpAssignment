@@ -16,8 +16,8 @@ data class SubcategoryAttributedCategoryDB (
         entityColumn = "alias",
         associateBy = Junction(
             CategoryAssocDB::class,
-            parentColumn = "child_alias",
-            entityColumn = "parent_alias"
+            parentColumn = "parent_alias",
+            entityColumn = "child_alias"
         )
     )
     val subcategories: List<CategoryDB>

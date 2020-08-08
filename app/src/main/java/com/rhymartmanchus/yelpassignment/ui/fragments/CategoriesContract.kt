@@ -7,6 +7,8 @@ interface CategoriesContract {
 
     interface View {
 
+        fun takeParentAlias(alias: String)
+
         fun enlistCategories(categories: List<SubcategoryAttributedCategory>)
 
     }
@@ -15,7 +17,8 @@ interface CategoriesContract {
 
         fun takeView(view: View)
 
-        fun onViewCreated()
+        fun onViewCreatedForRoot()
+        fun onViewCreatedForSubCategories(alias: String)
         fun onViewDestroyed()
 
     }

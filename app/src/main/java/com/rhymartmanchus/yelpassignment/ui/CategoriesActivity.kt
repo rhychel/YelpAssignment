@@ -52,7 +52,8 @@ class CategoriesActivity : AppCompatActivity(), CategoriesAdapter.OnCategorySele
 
     private fun providePresenter(): CategoriesContract.Presenter = CategoriesPresenter(
         InstanceProvider.appCoroutinesDispatcher,
-        InstanceProvider.getSubcategoryAttributedCategoriesUseCase
+        InstanceProvider.getSubcategoryAttributedCategoriesUseCase,
+        InstanceProvider.getSubcategoryAttributedCategoriesByAliasUseCase
     )
 
     private fun openSubCategories(subcategoryAttributedCategory: SubcategoryAttributedCategory) {
@@ -61,6 +62,7 @@ class CategoriesActivity : AppCompatActivity(), CategoriesAdapter.OnCategorySele
             presenter,
             this
         )
+        categoriesFragment.takeParentAlias(subcategoryAttributedCategory.alias)
         presenter.takeView(categoriesFragment)
 
         supportFragmentManager.beginTransaction()

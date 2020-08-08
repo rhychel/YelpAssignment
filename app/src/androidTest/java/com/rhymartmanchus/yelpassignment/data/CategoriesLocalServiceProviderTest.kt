@@ -91,10 +91,6 @@ class CategoriesLocalServiceProviderTest {
         val categories = categoriesLocalService.getSubcategoryAttributedCategories(3, 0)
 
         assertEquals(3, categories.size)
-
-        categories.forEach {
-            println("Category: ${it.alias}, Parents: ${it.subcategories.size}")
-        }
     }
 
     @Test

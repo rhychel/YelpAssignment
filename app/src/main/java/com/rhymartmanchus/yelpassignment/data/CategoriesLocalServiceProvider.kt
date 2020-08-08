@@ -9,6 +9,15 @@ import com.rhymartmanchus.yelpassignment.domain.models.SubcategoryAttributedCate
 class CategoriesLocalServiceProvider (
     private val dao: CategoriesDao
 ) : CategoriesLocalService {
+    override suspend fun getSubcategoryAttributedCategoriesByAlias(
+        alias: String,
+        limit: Long,
+        offset: Long
+    ): List<SubcategoryAttributedCategory> =
+        dao.getSubcategoryAttributedCategoriesByAlias(alias, limit, offset).map {
+            it.toDomain()
+        }.takeIf { it.isNotEmpty() }
+            ?: throw NoDataException("No available categories with alias=`$alias`")
 
     override suspend fun getSubcategoryAttributedCategories(
         limit: Long,
