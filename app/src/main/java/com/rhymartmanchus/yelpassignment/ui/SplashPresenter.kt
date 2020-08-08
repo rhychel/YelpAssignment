@@ -20,11 +20,11 @@ class SplashPresenter (
     override fun onLocationIsAllowed() {
         launch {
             try {
-//                fetchCategoriesByLocaleUseCase.execute(
-//                    FetchCategoriesByLocaleUseCase.Param(
-//                        Locale.getDefault()
-//                    )
-//                )
+                fetchCategoriesByLocaleUseCase.execute(
+                    FetchCategoriesByLocaleUseCase.Param(
+                        Locale.getDefault()
+                    )
+                )
 
                 withContext(dispatcher.ui()) {
                     view.proceedToNext()
