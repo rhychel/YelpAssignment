@@ -24,6 +24,7 @@
         </activity>
 
         <activity android:name=".ui.SearchBusinessActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
             android:screenOrientation="portrait"/>
     </application>
 

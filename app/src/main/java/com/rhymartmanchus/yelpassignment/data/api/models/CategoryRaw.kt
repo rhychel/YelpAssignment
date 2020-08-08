@@ -11,6 +11,6 @@ data class CategoryRaw (
     val title: String,
 
     @SerializedName("parent_aliases")
-    val parentAliases: List<String>
+    val parentAliases: List<String>?
 
 )

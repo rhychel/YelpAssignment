@@ -1,22 +1,34 @@
 package com.rhymartmanchus.yelpassignment.ui
 
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnTouchListener
 import android.widget.ImageView
+import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.edwnmrtnz.locationprovider.LocationProviderHelper
 import com.edwnmrtnz.locationprovider.callback.OnLocationReceiver
 import com.edwnmrtnz.locationprovider.enums.LocationUpdateStatus
+import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.ActivitySearchBusinessBinding
+import com.rhymartmanchus.yelpassignment.databinding.PopupWindowSortingBinding
+import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
+import com.rhymartmanchus.yelpassignment.ui.adapters.SortingStrategyAdapter
 import kotlinx.coroutines.*
 import java.io.IOException
 
@@ -39,7 +51,32 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     private val geocoder: Geocoder by lazy {
         Geocoder(this)
     }
-    private lateinit var presenter: SearchBusinessContract.Presenter
+    private val presenter: SearchBusinessContract.Presenter by lazy {
+        SearchBusinessPresenter(
+            InstanceProvider.appCoroutinesDispatcher,
+            this,
+            InstanceProvider.fetchBusinessesByLocationUseCase,
+            InstanceProvider.searchBusinessesByKeywordUseCase,
+            InstanceProvider.fetchBusinessesInCategoryByLocationUseCase,
+            InstanceProvider.searchBusinessesInCategoryByKeywordUseCase
+        )
+    }
+    private val popupWindow by lazy {
+        PopupWindow(this)
+    }
+    private val adapter = SortingStrategyAdapter(
+        listOf(
+            SortingStrategy.Default,
+            SortingStrategy.Distance,
+            SortingStrategy.Rating
+        ),
+        object : SortingStrategyAdapter.OnSortingStrategySelected {
+            override fun onSelected(strategy: SortingStrategy) {
+                presenter.takeSortingStrategy(strategy)
+                popupWindow.dismiss()
+            }
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +91,21 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
         }
         binder.ibtnSearch.setOnClickListener {
             presenter.onSearchClicked()
+        }
+        binder.ibtnSortBy.setOnClickListener {
+            val view = LayoutInflater.from(this).inflate(R.layout.popup_window_sorting, null, false)
+
+            val rvSortingOptions = view.findViewById<RecyclerView>(R.id.rvSortingOptions).apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(this@SearchBusinessActivity)
+            }
+            rvSortingOptions.adapter = adapter
+
+            popupWindow.contentView = view
+            popupWindow.height = 500
+            popupWindow.width = 400
+            popupWindow.isOutsideTouchable = true
+            popupWindow.showAsDropDown(it, 0, -98)
         }
     }
 
@@ -96,13 +148,18 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
                     delay(100L)
                     try {
                         val result = geocoder.getFromLocationName(newText, 1)
-                        presenter.takeCoordinates(
-                            Coordinates(
-                                result[0].latitude,
-                                result[0].longitude,
-                                newText
+                        if(result.isNotEmpty()) {
+                            presenter.takeCoordinates(
+                                Coordinates(
+                                    result[0].latitude,
+                                    result[0].longitude,
+                                    newText
+                                )
                             )
-                        )
+                        }
+                        else {
+                            presenter.setNoCoordinates()
+                        }
                     } catch (e: IOException) {
                         presenter.setNoCoordinates()
                     }
@@ -138,16 +195,15 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     }
 
     override fun onLocationAcquired(location: Location, accuracy: Float) {
-        Log.e("Location", "Coordinates is (${location.latitude}, ${location.longitude})")
         currentLocation = location
-//        if(!hasLocationQuery)
-//            presenter.takeCoordinates(
-//                Coordinates(
-//                    location.latitude,
-//                    location.longitude,
-//                    "Current location"
-//                )
-//            )
+        if(!hasLocationQuery)
+            presenter.takeCoordinates(
+                Coordinates(
+                    location.latitude,
+                    location.longitude,
+                    "Current location"
+                )
+            )
     }
 
     override fun onResolutionRequired(e: Exception) {
@@ -155,7 +211,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     }
 
     override fun onLocationReceiverStarted() {
-//        presenter.onGettingLocationStarted()
+        presenter.onGettingLocationStarted()
     }
 
     override fun onFailed(locationUpdateStatus: LocationUpdateStatus) {
@@ -163,23 +219,27 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     }
 
     override fun showLoadingGroup() {
-        TODO("Not yet implemented")
+        binder.grpLoader.visibility = View.VISIBLE
     }
 
     override fun hideLoadingGroup() {
-        TODO("Not yet implemented")
+        binder.grpLoader.visibility = View.GONE
     }
 
     override fun showNoResults() {
-        TODO("Not yet implemented")
+        binder.tvNoResults.visibility = View.VISIBLE
     }
 
     override fun hideNoResults() {
-        TODO("Not yet implemented")
+        binder.tvNoResults.visibility = View.GONE
+    }
+
+    override fun hideSearchInvitation() {
+        binder.tvInvitation.visibility = View.GONE
     }
 
     override fun enlistResults(businesses: List<Business>) {
-        TODO("Not yet implemented")
+        Log.e("REsults", businesses.joinToString { it.name })
     }
 
 }

@@ -14,6 +14,8 @@ interface SearchBusinessContract {
         fun showNoResults()
         fun hideNoResults()
 
+        fun hideSearchInvitation()
+
         fun enlistResults(businesses: List<Business>)
 
     }
@@ -32,9 +34,8 @@ interface SearchBusinessContract {
         fun onGettingLocationStarted()
 
         fun onSearchClicked()
-        fun onSortByNothingSelected()
-        fun onSortByDistanceSelected()
-        fun onSortByRatingSelected()
+
+        fun takeSortingStrategy(sortingStrategy: SortingStrategy)
 
     }
 

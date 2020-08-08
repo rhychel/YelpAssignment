@@ -13,7 +13,7 @@
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <item name="colorOnBackground">@android:color/white</item>
         <item name="colorOnError">@android:color/holo_red_light</item>
-        <item name="colorOnSurface">@color/secondaryLightColor</item>
+        <item name="colorOnSurface">@android:color/white</item>
 
         <item name="searchViewStyle">@style/AppTheme.SearchView</item>
     </style>

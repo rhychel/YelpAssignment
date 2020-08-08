@@ -26,12 +26,22 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:hint="Type a keyword"
+        android:focusedByDefault="false"
+        android:hint="Restaurant, spanish, pizza.."
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/ibtnSearch"
         app:layout_constraintEnd_toStartOf="@+id/ibtnSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbToolbar" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#4DAFAFAF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etKeyword" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/ibtnSearch"
@@ -51,7 +61,7 @@
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_sort_by"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ibtnSearch" />
+        app:layout_constraintTop_toTopOf="@+id/btnCategory" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvResults"
@@ -62,7 +72,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCategory" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCategory"
@@ -73,21 +83,31 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="All Categories"
+        android:textAllCaps="false"
         app:cornerRadius="0dp"
         app:layout_constraintEnd_toStartOf="@+id/ibtnSortBy"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etKeyword" />
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#4DAFAFAF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCategory" />
 
     <TextView
         android:id="@+id/tvNoResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:fontFamily="casual"
         android:text="No results"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/rvResults"
         app:layout_constraintEnd_toEndOf="@+id/rvResults"
         app:layout_constraintStart_toStartOf="@+id/rvResults"
         app:layout_constraintTop_toTopOf="@+id/rvResults" />
@@ -96,8 +116,9 @@
         android:id="@+id/grpLoader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:visibility="gone"
         app:constraint_referenced_ids="progressBar,textView3"
-        app:layout_constraintBottom_toBottomOf="@+id/rvResults"
         app:layout_constraintEnd_toEndOf="@+id/rvResults"
         app:layout_constraintStart_toStartOf="@+id/rvResults"
         app:layout_constraintTop_toTopOf="@+id/rvResults" />
@@ -107,7 +128,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/rvResults"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="@+id/rvResults"
         app:layout_constraintStart_toStartOf="@+id/rvResults"
         app:layout_constraintTop_toTopOf="@+id/rvResults" />
@@ -122,5 +143,18 @@
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="@+id/progressBar" />
+
+    <TextView
+        android:id="@+id/tvInvitation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="Tap the search icon \nto begin loading establishments"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/rvResults"
+        app:layout_constraintStart_toStartOf="@+id/rvResults"
+        app:layout_constraintTop_toTopOf="@+id/rvResults" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

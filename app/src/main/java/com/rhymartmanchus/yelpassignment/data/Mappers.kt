@@ -8,16 +8,16 @@ import com.rhymartmanchus.yelpassignment.domain.models.*
 
 fun BusinessRaw.toDomain(): Business =
     Business(
-        "Name",
-        "URL",
-        emptyList(),
+        name,
+        imageUrl,
+        categories.map { it.toDomain() },
         emptyList(),
         Address(
-            "sample", null, null
+            fullAddress, latitude, longitude
         ),
         ContactDetails(
-            "09778195952",
-            "+63 977 819 5952"
+            phone,
+            displayPhone
         ),
         Rating(4.5, "Reviews from 1000 users"),
         emptyList()
@@ -27,7 +27,7 @@ fun CategoryRaw.toDomain(): Category =
     Category(
         alias,
         title,
-        parentAliases
+        parentAliases ?: emptyList()
     )
 
 fun Category.toDB(): CategoryDB =
