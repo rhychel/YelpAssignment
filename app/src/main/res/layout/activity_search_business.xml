@@ -1,20 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="409dp"
+        android:id="@+id/tbToolbar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_search_business" />
+
+    <EditText
+        android:id="@+id/etKeyword"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="Type a keyword"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/ibtnSearch"
+        app:layout_constraintEnd_toStartOf="@+id/ibtnSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbToolbar" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/ibtnSearch"
+        style="?materialButtonOutlinedStyle"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbToolbar" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/ibtnSortBy"
+        style="?materialButtonOutlinedStyle"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_sort_by"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ibtnSearch" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvResults"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCategory" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCategory"
+        style="?borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="All Categories"
+        app:cornerRadius="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/ibtnSortBy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etKeyword" />
+
+    <TextView
+        android:id="@+id/tvNoResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="No results"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvResults"
+        app:layout_constraintEnd_toEndOf="@+id/rvResults"
+        app:layout_constraintStart_toStartOf="@+id/rvResults"
+        app:layout_constraintTop_toTopOf="@+id/rvResults" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grpLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="progressBar,textView3"
+        app:layout_constraintBottom_toBottomOf="@+id/rvResults"
+        app:layout_constraintEnd_toEndOf="@+id/rvResults"
+        app:layout_constraintStart_toStartOf="@+id/rvResults"
+        app:layout_constraintTop_toTopOf="@+id/rvResults" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/rvResults"
+        app:layout_constraintEnd_toEndOf="@+id/rvResults"
+        app:layout_constraintStart_toStartOf="@+id/rvResults"
+        app:layout_constraintTop_toTopOf="@+id/rvResults" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="Loading businesses..."
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

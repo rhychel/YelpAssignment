@@ -14,6 +14,12 @@
         <item name="colorOnBackground">@android:color/white</item>
         <item name="colorOnError">@android:color/holo_red_light</item>
         <item name="colorOnSurface">@color/secondaryLightColor</item>
+
+        <item name="searchViewStyle">@style/AppTheme.SearchView</item>
+    </style>
+
+    <style name="AppTheme.SearchView" parent="Widget.AppCompat.Light.SearchView">
+        <item name="searchIcon">@drawable/ic_location</item>
     </style>
 
 </resources>
