@@ -1,9 +1,6 @@
 package com.rhymartmanchus.yelpassignment.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.rhymartmanchus.yelpassignment.data.db.models.CategoryAssocDB
 import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
 import com.rhymartmanchus.yelpassignment.data.db.models.SubcategoryAttributedCategoryDB
@@ -15,10 +12,10 @@ interface CategoriesDao {
     @Query("SELECT * FROM categories LIMIT :limit OFFSET :offset")
     suspend fun getSubcategoryAttributedCategories(limit: Long, offset: Long): List<SubcategoryAttributedCategoryDB>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCategory(categoryDB: CategoryDB)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCategoryAssoc(categoryAssocDB: CategoryAssocDB)
 
 }
