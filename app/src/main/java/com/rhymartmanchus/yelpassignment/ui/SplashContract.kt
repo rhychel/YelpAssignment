@@ -18,6 +18,8 @@ interface SplashContract {
         fun onRetryClicked()
         fun onExitClicked()
 
+        fun onViewDestroyed()
+
     }
 
 }

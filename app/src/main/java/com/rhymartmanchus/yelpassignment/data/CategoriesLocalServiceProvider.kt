@@ -32,4 +32,12 @@ class CategoriesLocalServiceProvider (
             }
         }
     }
+
+    override suspend fun deleteCategories() {
+        dao.deleteAllCategories()
+    }
+
+    override suspend fun deleteCategoryAssocs() {
+        dao.deleteAllCategoryAssocs()
+    }
 }

@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 
 object InstanceProvider {
 
-    var appCoroutineDispatcher: AppCoroutineDispatcher = CoroutineDispatcher()
+    var appCoroutinesDispatcher: AppCoroutineDispatcher = CoroutineDispatcher()
 
     private val okHttpClient = OkHttpClient()
         .newBuilder()
@@ -59,7 +59,7 @@ object InstanceProvider {
 
     val fetchCategoriesByLocaleUseCase: FetchCategoriesByLocaleUseCase by lazy {
         FetchCategoriesByLocaleUseCase(
-            appCoroutineDispatcher,
+            appCoroutinesDispatcher,
             categoriesGateway
         )
     }

@@ -17,6 +17,7 @@ class FetchCategoriesByLocaleUseCase (
             params.locale.toYelpLocaleFormat()
         )
 
+        gateway.invalidateCategories()
         val category = gateway.fetchCategories(yelpLocale)
         gateway.saveCategories(category)
 

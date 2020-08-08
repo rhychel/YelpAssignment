@@ -7,5 +7,7 @@ interface CategoriesLocalService {
 
     suspend fun getSubcategoryAttributedCategories(limit: Long, offset: Long): List<SubcategoryAttributedCategory>
     suspend fun saveCategories(categories: List<Category>)
+    suspend fun deleteCategories()
+    suspend fun deleteCategoryAssocs()
 
 }

@@ -1,6 +1,7 @@
 package com.rhymartmanchus.yelpassignment.ui
 
 import com.rhymartmanchus.yelpassignment.coroutines.AppCoroutineDispatcher
+import com.rhymartmanchus.yelpassignment.domain.exceptions.NetworkErrorException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.NoDataException
 import com.rhymartmanchus.yelpassignment.domain.interactors.FetchCategoriesByLocaleUseCase
 import kotlinx.coroutines.*
@@ -13,13 +14,10 @@ class SplashPresenter (
     private val fetchCategoriesByLocaleUseCase: FetchCategoriesByLocaleUseCase
 ) : SplashContract.Presenter, CoroutineScope {
 
-    private val job: Job = SupervisorJob()
-
-    override val coroutineContext: CoroutineContext
-        get() = job + dispatcher.io()
+    private val job = SupervisorJob()
+    override val coroutineContext: CoroutineContext = dispatcher.io() + job
 
     override fun onLocationIsAllowed() {
-
         launch {
             try {
                 fetchCategoriesByLocaleUseCase.execute(
@@ -31,12 +29,9 @@ class SplashPresenter (
                 withContext(dispatcher.ui()) {
                     view.proceedToNext()
                 }
-            } catch (e: Exception) {
+            } catch (e: NetworkErrorException) {
                 withContext(dispatcher.ui()) {
-                    when(e) {
-                        is NoDataException -> view.popupNetworkFailedDialog()
-                        else -> throw e
-                    }
+                    view.popupNetworkFailedDialog()
                 }
             }
 
@@ -50,6 +45,10 @@ class SplashPresenter (
 
     override fun onExitClicked() {
         view.closeView()
+    }
+
+    override fun onViewDestroyed() {
+        job.cancel()
     }
 
 }

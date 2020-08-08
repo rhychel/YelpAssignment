@@ -21,4 +21,9 @@ class CategoriesRepository (
 
     override suspend fun saveCategories(categories: List<Category>) =
         local.saveCategories(categories)
+
+    override suspend fun invalidateCategories() {
+        local.deleteCategories()
+        local.deleteCategoryAssocs()
+    }
 }

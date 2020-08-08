@@ -61,6 +61,7 @@ class FetchCategoriesByLocaleUseCaseTest {
         )
 
         val inOrder = inOrder(gateway)
+        inOrder.verify(gateway).invalidateCategories()
         inOrder.verify(gateway).fetchCategories(any())
         inOrder.verify(gateway).saveCategories(any())
         inOrder.verifyNoMoreInteractions()
