@@ -76,4 +76,9 @@ dependencies {
 //    edmrtnz
     implementation 'com.github.edwnmrtnz:SimpleLocationHelper:v1.0'
     implementation 'com.github.edwnmrtnz:betterpermissions-android:v.1.0.0'
+
+//    FlexiAdapter
+    implementation "eu.davidea:flexible-adapter:5.1.0"
+    implementation "eu.davidea:flexible-adapter-ui:1.0.0"
+
 }
