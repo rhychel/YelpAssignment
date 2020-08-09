@@ -20,7 +20,7 @@ interface BusinessDetailsContract {
         fun showCategories(categories: List<String>)
         fun showContactDetails(contactDetails: ContactDetails)
         fun showAddress(address: Address)
-        fun showHoursOfOperation(operations: List<OperatingHour>)
+        fun showOpenHours(operations: List<OperatingHour>)
         fun showRating(rating: Rating)
         fun showReviews()
 

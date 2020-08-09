@@ -29,7 +29,8 @@ class BusinessesConverter : JsonDeserializer<List<BusinessRaw>> {
                         dispAddress.asString
                     },
                 latitude = businessJson["coordinates"].asJsonObject["latitude"].asDouble,
-                longitude = businessJson["coordinates"].asJsonObject["longitude"].asDouble
+                longitude = businessJson["coordinates"].asJsonObject["longitude"].asDouble,
+                openHours = emptyList()
             )
         }
     }

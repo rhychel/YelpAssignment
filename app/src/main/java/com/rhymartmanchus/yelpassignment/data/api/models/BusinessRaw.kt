@@ -22,11 +22,6 @@ data class BusinessRaw (
     @SerializedName("categories")
     val categories: List<CategoryRaw>,
 
-    val fullAddress: String,
-    val latitude: Double?,
-    val longitude: Double?,
-
-
     @SerializedName("phone")
     val phone: String,
 
@@ -40,5 +35,11 @@ data class BusinessRaw (
     val rating: Double,
 
     @SerializedName("is_closed")
-    val isClosed: Boolean
+    val isClosed: Boolean,
+
+    val fullAddress: String,
+    val latitude: Double?,
+    val longitude: Double?,
+    val openHours: List<OpenHourRaw>
+
 )

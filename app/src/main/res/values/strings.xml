@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">YelPH</string>
+
+    <string name="open_hours">%1$s - %2$s</string>
 </resources>

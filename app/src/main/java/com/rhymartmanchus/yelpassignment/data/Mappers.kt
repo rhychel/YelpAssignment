@@ -7,6 +7,16 @@ import com.rhymartmanchus.yelpassignment.data.db.models.SubcategoryAttributedCat
 import com.rhymartmanchus.yelpassignment.domain.models.*
 import java.math.BigDecimal
 
+private fun timeParser(time: String): String {
+    val hour = time.substring(0, 2)
+    val minutes = time.substring(2, 4)
+    val median = if(hour.toInt() >= 12) "PM" else "AM"
+
+    if(hour.toInt() == 0)
+        return "12:$minutes $median"
+    return "${hour.toInt().takeIf { it < 13 } ?: hour.toInt()-12}:$minutes $median"
+}
+
 fun BusinessRaw.toDomain(): Business =
     Business(
         id,
@@ -14,7 +24,14 @@ fun BusinessRaw.toDomain(): Business =
         name,
         imageUrl,
         categories.map { it.toDomain() },
-        emptyList(),
+        openHours.map {
+            OperatingHour(
+                it.isOvernight,
+                timeParser(it.start),
+                timeParser(it.end),
+                Day.determineDay(it.day)
+            )
+        },
         Address(
             fullAddress, latitude, longitude
         ),

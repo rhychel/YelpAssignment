@@ -3,12 +3,15 @@ package com.rhymartmanchus.yelpassignment.ui
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.ActivityBusinessDetailsBinding
@@ -16,9 +19,7 @@ import com.rhymartmanchus.yelpassignment.domain.models.Address
 import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
 import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
 import com.rhymartmanchus.yelpassignment.domain.models.Rating
-import com.rhymartmanchus.yelpassignment.ui.viewmodels.AddressVM
-import com.rhymartmanchus.yelpassignment.ui.viewmodels.BaseBusinessDetailsVM
-import com.rhymartmanchus.yelpassignment.ui.viewmodels.ContactDetailsVM
+import com.rhymartmanchus.yelpassignment.ui.viewmodels.*
 import com.squareup.picasso.Picasso
 import eu.davidea.flexibleadapter.FlexibleAdapter
 
@@ -51,12 +52,7 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
         binder.rvBusinessDetails.setHasFixedSize(true)
         binder.rvBusinessDetails.layoutManager = LinearLayoutManager(this)
         binder.rvBusinessDetails.adapter = adapter
-        binder.rvBusinessDetails.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                DividerItemDecoration.VERTICAL
-            )
-        )
+        binder.rvBusinessDetails.addItemDecoration(OpenHoursDividerItemDecoration())
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         presenter.onViewCreated(
@@ -65,6 +61,34 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
         )
 
     }
+
+    private inner class OpenHoursDividerItemDecoration : DividerItemDecoration(this, VERTICAL) {
+
+        fun hideDivider(
+            item: BaseBusinessDetailsVM<*>,
+            outRect: Rect,
+            default: () -> Unit
+        ) {
+
+            if(item is OpenHoursVM) {
+                outRect.setEmpty()
+            } else {
+                default()
+            }
+
+        }
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(view)
+            val serviceArea = adapter.getItem(position)!!
+
+            hideDivider(serviceArea, outRect) {
+                super.getItemOffsets(outRect, view, parent, state)
+            }
+
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home)
@@ -136,8 +160,15 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
         })
     }
 
-    override fun showHoursOfOperation(operations: List<OperatingHour>) {
-        TODO("Not yet implemented")
+    override fun showOpenHours(operations: List<OperatingHour>) {
+        adapter.addItem(
+            OpenHoursHeaderVM()
+        )
+        operations.forEach {
+            adapter.addItem(
+                OpenHoursVM(it)
+            )
+        }
     }
 
     override fun showRating(rating: Rating) {
