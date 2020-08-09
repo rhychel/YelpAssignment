@@ -1,15 +1,19 @@
 package com.rhymartmanchus.yelpassignment.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -38,6 +42,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     private val binder: ActivitySearchBusinessBinding by lazy {
         ActivitySearchBusinessBinding.inflate(layoutInflater)
     }
+    private lateinit var svLocation: SearchView
 
     private var isLocating = false
     private var hasLocationQuery = false
@@ -98,10 +103,18 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     }
 
     private fun bindListeners() {
+        binder.etKeyword.setOnEditorActionListener { _, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard()
+                presenter.onSearchClicked()
+            }
+            true
+        }
         binder.etKeyword.addTextChangedListener {
-            presenter.takeSearchKeyword(it?.toString() ?: "")
+            presenter.takeSearchKeyword(it?.toString()?.takeIf { str -> str.isNotEmpty() })
         }
         binder.ibtnSearch.setOnClickListener {
+            hideKeyboard()
             presenter.onSearchClicked()
         }
         binder.ibtnSortBy.setOnClickListener {
@@ -124,6 +137,17 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
         }
     }
 
+    fun hideKeyboard() {
+        val imm: InputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view: View? = currentFocus
+        if (view == null) {
+            view = View(this)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        binder.etKeyword.clearFocus()
+        svLocation.clearFocus()
+    }
+
     override fun onResume() {
         super.onResume()
         startLocationUpdates()
@@ -132,18 +156,29 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search_business, menu)
 
-        val sv = menu.getItem(0).actionView as SearchView
-        sv.setIconifiedByDefault(false)
-        sv.queryHint = "Current location"
-        val searchIcon: ImageView = sv.findViewById(androidx.appcompat.R.id.search_mag_icon)
-        val searchText: SearchView.SearchAutoComplete = sv.findViewById(androidx.appcompat.R.id.search_src_text)
-        val searchClose: ImageView = sv.findViewById(androidx.appcompat.R.id.search_close_btn)
+        svLocation = menu.getItem(0).actionView as SearchView
+        svLocation.setIconifiedByDefault(false)
+        svLocation.queryHint = "Current location"
+        val searchIcon: ImageView = svLocation.findViewById(androidx.appcompat.R.id.search_mag_icon)
+        val searchText: SearchView.SearchAutoComplete = svLocation.findViewById(androidx.appcompat.R.id.search_src_text)
+        val searchClose: ImageView = svLocation.findViewById(androidx.appcompat.R.id.search_close_btn)
         searchIcon.setImageResource(R.drawable.ic_location)
         searchText.setHintTextColor(ContextCompat.getColor(this, android.R.color.white))
         searchText.setTextColor(ContextCompat.getColor(this, android.R.color.white))
         searchClose.setImageResource(R.drawable.ic_close)
-        sv.setOnQueryTextListener(object : OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean = false
+
+        svLocation.setOnCloseListener {
+            hideKeyboard()
+            presenter.onSearchClicked()
+
+            true
+        }
+        svLocation.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                hideKeyboard()
+                presenter.onSearchClicked()
+                return true
+            }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if(newText.isEmpty()) {
@@ -155,6 +190,8 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
                             newText
                         )
                     )
+                    presenter.onSearchClicked()
+                    hideKeyboard()
                     return true
                 }
                 hasLocationQuery = true
@@ -265,6 +302,10 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
         businessesAdapter.updateDataSet(businesses.map {
             BusinessItemVM(it)
         })
+    }
+
+    override fun clearResults() {
+        businessesAdapter.clear()
     }
 
     override fun proceedToCategories(category: Category?) {

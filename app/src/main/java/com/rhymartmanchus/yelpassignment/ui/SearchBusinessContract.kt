@@ -20,6 +20,7 @@ interface SearchBusinessContract {
         fun hideSortingButton()
 
         fun enlistResults(businesses: List<Business>)
+        fun clearResults()
 
         fun proceedToCategories(category: Category?)
 
@@ -32,7 +33,7 @@ interface SearchBusinessContract {
         fun setNoCoordinates()
         fun takeCoordinates(coordinates: Coordinates)
 
-        fun takeSearchKeyword(keyword: String)
+        fun takeSearchKeyword(keyword: String?)
         fun invalidateSearchKeyword()
 
         fun takeCategory(category: Category)

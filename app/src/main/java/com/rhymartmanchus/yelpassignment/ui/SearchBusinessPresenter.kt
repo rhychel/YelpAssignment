@@ -41,7 +41,7 @@ class SearchBusinessPresenter (
         this.coordinates = coordinates
     }
 
-    override fun takeSearchKeyword(keyword: String) {
+    override fun takeSearchKeyword(keyword: String?) {
         this.keyword = keyword
     }
 
@@ -89,6 +89,7 @@ class SearchBusinessPresenter (
             view.hideSortingButton()
             view.showNoResults()
             view.hideLoadingGroup()
+            view.clearResults()
         }
     }
 
