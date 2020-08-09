@@ -19,7 +19,11 @@ class BusinessConverter : JsonDeserializer<BusinessRaw> {
         val gson = GsonBuilder()
             .create()
         val raw = gson.fromJson(response, BusinessRaw::class.java)
-        val openHours = response["hours"].asJsonArray[0].asJsonObject["open"].asJsonArray
+        val openHours = if(response["hours"] == null) emptyList<OpenHourRaw>()
+        else {
+            gson.fromJson(response["hours"].asJsonArray[0].asJsonObject["open"].asJsonArray,
+                object : TypeToken<MutableList<OpenHourRaw>>(){}.type)
+        }
 
         return raw.copy(
             fullAddress = response["location"]
@@ -30,7 +34,7 @@ class BusinessConverter : JsonDeserializer<BusinessRaw> {
                 },
             latitude = response["coordinates"].asJsonObject["latitude"].asDouble,
             longitude = response["coordinates"].asJsonObject["longitude"].asDouble,
-            openHours = gson.fromJson(openHours, object : TypeToken<MutableList<OpenHourRaw>>(){}.type)
+            openHours = openHours
         )
     }
 }

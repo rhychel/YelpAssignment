@@ -69,6 +69,7 @@ class SearchBusinessPresenter (
     }
 
     private fun loadResults() {
+        view.hideNoResults()
         view.hideSearchInvitation()
         view.showLoadingGroup()
         launch {

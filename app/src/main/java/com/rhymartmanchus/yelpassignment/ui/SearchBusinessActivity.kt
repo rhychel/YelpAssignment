@@ -127,7 +127,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
             rvSortingOptions.adapter = sortingStrategyAdapter
 
             popupWindow.contentView = view
-            popupWindow.height = 500
+            popupWindow.height = 350
             popupWindow.width = 400
             popupWindow.isOutsideTouchable = true
             popupWindow.showAsDropDown(it, 0, -98)
