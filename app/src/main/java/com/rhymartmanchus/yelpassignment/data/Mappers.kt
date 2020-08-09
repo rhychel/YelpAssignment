@@ -10,6 +10,7 @@ import java.math.BigDecimal
 fun BusinessRaw.toDomain(): Business =
     Business(
         id,
+        alias,
         name,
         imageUrl,
         categories.map { it.toDomain() },

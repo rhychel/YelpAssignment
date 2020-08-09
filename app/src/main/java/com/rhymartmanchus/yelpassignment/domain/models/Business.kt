@@ -2,6 +2,7 @@ package com.rhymartmanchus.yelpassignment.domain.models
 
 data class Business (
     val id: String,
+    val alias: String,
     val name: String,
     val photoUrl: String,
     val categories: List<Category>,
