@@ -46,6 +46,7 @@ class BusinessDetailsPresenter (
                         view.showAddress(address)
                         view.showContactDetails(contactDetails)
                         view.showOpenHours(operatingHours)
+                        view.showRating(rating)
                     }
                 }
             } catch (e: NetworkErrorException) {

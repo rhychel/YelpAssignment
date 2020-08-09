@@ -1,5 +1,6 @@
 package com.rhymartmanchus.yelpassignment.ui
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
@@ -64,28 +65,19 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
 
     private inner class OpenHoursDividerItemDecoration : DividerItemDecoration(this, VERTICAL) {
 
-        fun hideDivider(
-            item: BaseBusinessDetailsVM<*>,
-            outRect: Rect,
-            default: () -> Unit
-        ) {
-
-            if(item is OpenHoursVM) {
-                outRect.setEmpty()
-            } else {
-                default()
-            }
-
-        }
-
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
             val position = parent.getChildAdapterPosition(view)
-            val serviceArea = adapter.getItem(position)!!
+            val item = adapter.getItem(position)!!
 
-            hideDivider(serviceArea, outRect) {
-                super.getItemOffsets(outRect, view, parent, state)
+            if(item is OpenHoursVM) {
+                val nextItem = adapter.getItem(position+1)!!
+                if(nextItem !is OpenHoursVM)
+                    super.getItemOffsets(outRect, view, parent, state)
+                else
+                    outRect.setEmpty()
             }
-
+            else
+                super.getItemOffsets(outRect, view, parent, state)
         }
     }
 
@@ -109,15 +101,30 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
     }
 
     override fun popupNetworkFailureDialog() {
-        TODO("Not yet implemented")
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setTitle("Ooops!")
+            .setMessage("Please check your internet connectivity.")
+            .setPositiveButton("Ok") { _,_ -> finish() }
+            .show()
     }
 
     override fun popupBusinessIsMigratedDialog(alias: String) {
-        TODO("Not yet implemented")
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setTitle("Ooops!")
+            .setMessage("Business with alias `$alias` is already migrated.")
+            .setPositiveButton("Ok") { _,_ -> finish() }
+            .show()
     }
 
     override fun popupBusinessNotFoundDialog(name: String) {
-        TODO("Not yet implemented")
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setTitle("Ooops!")
+            .setMessage("Business `$name` is not found.")
+            .setPositiveButton("Ok") { _,_ -> finish() }
+            .show()
     }
 
     override fun showNameAndPhoto(name: String, photoUrl: String) {
@@ -172,7 +179,9 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
     }
 
     override fun showRating(rating: Rating) {
-        TODO("Not yet implemented")
+        adapter.addItem(
+            RatingsVM(rating)
+        )
     }
 
     override fun showReviews() {

@@ -9,7 +9,7 @@ data class Business (
     val operatingHours: List<OperatingHour>,
     val address: Address,
     val contactDetails: ContactDetails,
-    val ratings: Rating,
+    val rating: Rating,
     val deals: List<Deals>,
     val distance: String,
     val isClosed: Boolean

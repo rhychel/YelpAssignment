@@ -1,9 +1,7 @@
 package com.rhymartmanchus.yelpassignment.ui.viewmodels
 
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.View
-import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.LayoutBusinessItemBinding
@@ -38,8 +36,8 @@ class BusinessItemVM (
     ) {
 
         holder.binder.tvBusinessName.text = business.name
-        holder.binder.tvReviews.text = business.ratings.snippet
-        holder.binder.ivRating.setImageResource(getRatingImage())
+        holder.binder.tvReviews.text = business.rating.snippet
+        holder.binder.ivRating.setImageResource(RatingAssetProvider.getRatingImage(business.rating))
         holder.binder.tvBusinessAddress.text = business.address.fullAddress
         holder.binder.ivPhoto.post {
 
@@ -62,21 +60,6 @@ class BusinessItemVM (
         holder.binder.tvOperatingStatus.setBackgroundResource(if(business.isClosed) R.drawable.bg_closed else R.drawable.bg_opened)
 
     }
-
-    @DrawableRes
-    private fun getRatingImage(): Int =
-        when(business.ratings.ratingValue) {
-            1.0 -> R.drawable.ic_rating_1
-            1.5 -> R.drawable.ic_rating_1_5
-            2.0 -> R.drawable.ic_rating_2
-            2.5 -> R.drawable.ic_rating_2_5
-            3.0 -> R.drawable.ic_rating_3
-            3.5 -> R.drawable.ic_rating_3_5
-            4.0 -> R.drawable.ic_rating_4
-            4.5 -> R.drawable.ic_rating_4_5
-            5.0 -> R.drawable.ic_rating_5
-            else -> R.drawable.ic_rating_0
-        }
 
     override fun equals(other: Any?): Boolean =
         business.id == (other as Business).id
