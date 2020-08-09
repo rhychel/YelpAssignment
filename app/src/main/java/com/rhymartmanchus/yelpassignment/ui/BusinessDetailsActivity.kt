@@ -39,7 +39,7 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
     }
 
     private val adapter by lazy {
-        FlexibleAdapter<BaseBusinessDetailsVM<*>>(mutableListOf())
+        FlexibleAdapter<BaseVM<*>>(mutableListOf())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

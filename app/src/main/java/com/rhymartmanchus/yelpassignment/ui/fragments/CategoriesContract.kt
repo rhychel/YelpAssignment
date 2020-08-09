@@ -11,6 +11,10 @@ interface CategoriesContract {
 
         fun enlistCategories(categories: List<SubcategoryAttributedCategory>)
 
+        fun appendCategories(categories: List<SubcategoryAttributedCategory>)
+        fun stopEndlessScrolling()
+        fun showProgressItem()
+
     }
 
     interface Presenter {
@@ -20,6 +24,9 @@ interface CategoriesContract {
         fun onViewCreatedForRoot()
         fun onViewCreatedForSubCategories(alias: String)
         fun onViewDestroyed()
+
+        fun onLoadMoreCategories()
+        fun onLoadMoreSubcategories()
 
     }
 
