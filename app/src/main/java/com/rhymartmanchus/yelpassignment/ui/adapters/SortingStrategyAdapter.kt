@@ -29,7 +29,7 @@ class SortingStrategyAdapter (
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SortingStrategyAdapter.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.layout_sorting_item, parent, false)
         )
@@ -43,7 +43,7 @@ class SortingStrategyAdapter (
             SortingStrategy.Distance -> "Distance"
         }
 
-    override fun onBindViewHolder(holder: SortingStrategyAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.binder.rbSortBy.isChecked = selected == position
         holder.binder.rbSortBy.text = sortingStrategies[position].getLabel()

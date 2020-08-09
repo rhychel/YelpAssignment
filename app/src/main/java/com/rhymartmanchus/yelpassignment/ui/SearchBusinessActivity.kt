@@ -1,16 +1,13 @@
 package com.rhymartmanchus.yelpassignment.ui
 
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +23,6 @@ import com.edwnmrtnz.locationprovider.enums.LocationUpdateStatus
 import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.ActivitySearchBusinessBinding
-import com.rhymartmanchus.yelpassignment.databinding.PopupWindowSortingBinding
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
@@ -66,19 +62,21 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     private val popupWindow by lazy {
         PopupWindow(this)
     }
-    private val adapter = SortingStrategyAdapter(
-        listOf(
-            SortingStrategy.Default,
-            SortingStrategy.Distance,
-            SortingStrategy.Rating
-        ),
-        object : SortingStrategyAdapter.OnSortingStrategySelected {
-            override fun onSelected(strategy: SortingStrategy) {
-                presenter.takeSortingStrategy(strategy)
-                popupWindow.dismiss()
+    private val adapter =
+        SortingStrategyAdapter(
+            listOf(
+                SortingStrategy.Default,
+                SortingStrategy.Distance,
+                SortingStrategy.Rating
+            ),
+            object :
+                SortingStrategyAdapter.OnSortingStrategySelected {
+                override fun onSelected(strategy: SortingStrategy) {
+                    presenter.takeSortingStrategy(strategy)
+                    popupWindow.dismiss()
+                }
             }
-        }
-    )
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

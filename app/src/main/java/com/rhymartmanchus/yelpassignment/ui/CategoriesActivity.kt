@@ -8,12 +8,11 @@ import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.databinding.ActivityCategoriesBinding
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 import com.rhymartmanchus.yelpassignment.domain.models.SubcategoryAttributedCategory
-import com.rhymartmanchus.yelpassignment.ui.adapters.CategoriesAdapter
 import com.rhymartmanchus.yelpassignment.ui.fragments.CategoriesContract
 import com.rhymartmanchus.yelpassignment.ui.fragments.CategoriesFragment
 import com.rhymartmanchus.yelpassignment.ui.fragments.CategoriesPresenter
 
-class CategoriesActivity : AppCompatActivity(), CategoriesAdapter.OnCategorySelectedListener {
+class CategoriesActivity : AppCompatActivity(), CategoriesFragment.OnCategorySelectedListener {
 
     private val binder: ActivityCategoriesBinding by lazy {
         ActivityCategoriesBinding.inflate(layoutInflater)
