@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.ActivityBusinessDetailsBinding
-import com.rhymartmanchus.yelpassignment.domain.models.Address
-import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
-import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
-import com.rhymartmanchus.yelpassignment.domain.models.Rating
+import com.rhymartmanchus.yelpassignment.domain.models.*
 import com.rhymartmanchus.yelpassignment.ui.viewmodels.*
 import com.squareup.picasso.Picasso
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -36,7 +33,8 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
         BusinessDetailsPresenter(
             InstanceProvider.appCoroutinesDispatcher,
             this,
-            InstanceProvider.fetchBusinessByAliasUseCase
+            InstanceProvider.fetchBusinessByAliasUseCase,
+            InstanceProvider.fetchBusinessReviewsByAliasUseCase
         )
     }
 
@@ -180,12 +178,18 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
 
     override fun showRating(rating: Rating) {
         adapter.addItem(
-            RatingsVM(rating)
+            RatingVM(rating)
         )
     }
 
-    override fun showReviews() {
-        TODO("Not yet implemented")
+    override fun showReviews(reviews: List<Review>) {
+        reviews.forEach {
+            adapter.addItem(
+                ReviewVM(
+                    it
+                )
+            )
+        }
     }
 
     override fun callBusiness(phoneNumber: String) {

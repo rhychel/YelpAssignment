@@ -5,6 +5,7 @@ import com.rhymartmanchus.yelpassignment.coroutines.AppCoroutineDispatcher
 import com.rhymartmanchus.yelpassignment.domain.exceptions.BusinessMigratedException
 import com.rhymartmanchus.yelpassignment.domain.exceptions.BusinessNotFoundException
 import com.rhymartmanchus.yelpassignment.domain.interactors.FetchBusinessByAliasUseCase
+import com.rhymartmanchus.yelpassignment.domain.interactors.FetchBusinessReviewsByAliasUseCase
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -15,7 +16,8 @@ import kotlin.coroutines.CoroutineContext
 class BusinessDetailsPresenter (
     private val dispatcher: AppCoroutineDispatcher,
     private val view: BusinessDetailsContract.View,
-    private val fetchBusinessByAliasUseCase: FetchBusinessByAliasUseCase
+    private val fetchBusinessByAliasUseCase: FetchBusinessByAliasUseCase,
+    private val fetchBusinessReviewsByAliasUseCase: FetchBusinessReviewsByAliasUseCase
 ) : BusinessDetailsContract.Presenter, CoroutineScope {
 
     private val job = SupervisorJob()
@@ -38,6 +40,12 @@ class BusinessDetailsPresenter (
                     FetchBusinessByAliasUseCase.Param(alias)
                 ).business
 
+                val reviews = fetchBusinessReviewsByAliasUseCase.execute(
+                    FetchBusinessReviewsByAliasUseCase.Param(
+                        business.alias
+                    )
+                ).reviews
+
                 withContext(dispatcher.ui()) {
                     view.dismissLoadingDialog()
                     with(business) {
@@ -47,6 +55,7 @@ class BusinessDetailsPresenter (
                         view.showContactDetails(contactDetails)
                         view.showOpenHours(operatingHours)
                         view.showRating(rating)
+                        view.showReviews(reviews)
                     }
                 }
             } catch (e: NetworkErrorException) {

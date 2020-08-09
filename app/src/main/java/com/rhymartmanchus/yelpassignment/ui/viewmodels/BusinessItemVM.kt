@@ -37,7 +37,7 @@ class BusinessItemVM (
 
         holder.binder.tvBusinessName.text = business.name
         holder.binder.tvReviews.text = business.rating.snippet
-        holder.binder.ivRating.setImageResource(RatingAssetProvider.getRatingImage(business.rating))
+        holder.binder.ivRating.setImageResource(RatingAssetProvider.getRatingImage(business.rating.ratingValue))
         holder.binder.tvBusinessAddress.text = business.address.fullAddress
         holder.binder.ivPhoto.post {
 

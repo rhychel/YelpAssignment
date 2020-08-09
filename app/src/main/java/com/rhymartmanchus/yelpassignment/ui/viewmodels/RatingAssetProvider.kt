@@ -8,8 +8,8 @@ object RatingAssetProvider {
 
 
     @DrawableRes
-    fun getRatingImage(ratings: Rating): Int =
-        when(ratings.ratingValue) {
+    fun getRatingImage(rating: Double): Int =
+        when(rating) {
             1.0 -> R.drawable.ic_rating_1
             1.5 -> R.drawable.ic_rating_1_5
             2.0 -> R.drawable.ic_rating_2

@@ -1,9 +1,6 @@
 package com.rhymartmanchus.yelpassignment.ui
 
-import com.rhymartmanchus.yelpassignment.domain.models.Address
-import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
-import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
-import com.rhymartmanchus.yelpassignment.domain.models.Rating
+import com.rhymartmanchus.yelpassignment.domain.models.*
 
 interface BusinessDetailsContract {
 
@@ -22,7 +19,7 @@ interface BusinessDetailsContract {
         fun showAddress(address: Address)
         fun showOpenHours(operations: List<OperatingHour>)
         fun showRating(rating: Rating)
-        fun showReviews()
+        fun showReviews(reviews: List<Review>)
 
         fun callBusiness(phoneNumber: String)
         fun openMap(latitude: Double, longitude: Double)

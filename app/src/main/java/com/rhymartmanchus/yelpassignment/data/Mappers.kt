@@ -80,7 +80,8 @@ fun ReviewRaw.toDomain(): Review =
         rating,
         timeCreatedParser(timeCreated),
         userName,
-        userImageUrl
+        userImageUrl ?: "",
+        text
     )
 
 private fun timeCreatedParser(timeCreated: String): String {

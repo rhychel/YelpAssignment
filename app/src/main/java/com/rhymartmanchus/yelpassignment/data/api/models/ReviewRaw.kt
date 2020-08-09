@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ReviewRaw (
     val userName: String,
-    val userImageUrl: String,
+    val userImageUrl: String?,
 
     @SerializedName("text")
     val text: String,

@@ -1,9 +1,6 @@
 package com.rhymartmanchus.yelpassignment.data.api
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
+import com.google.gson.*
 import com.rhymartmanchus.yelpassignment.data.api.models.ReviewRaw
 import java.lang.reflect.Type
 
@@ -20,10 +17,11 @@ class ReviewsConverter : JsonDeserializer<List<ReviewRaw>> {
         return reviews.asJsonArray.map {
             val reviewJson = it.asJsonObject
             val raw = gson.fromJson(reviewJson, ReviewRaw::class.java)
+            val image_url = reviewJson["user"].asJsonObject.get("image_url")
 
             raw.copy(
                 userName = reviewJson["user"].asJsonObject.get("name").asString,
-                userImageUrl = reviewJson["user"].asJsonObject.get("image_url").asString
+                userImageUrl = if(image_url is JsonNull) null else image_url.asString
             )
         }
     }

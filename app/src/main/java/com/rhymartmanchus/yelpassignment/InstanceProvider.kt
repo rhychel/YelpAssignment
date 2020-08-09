@@ -116,4 +116,11 @@ object InstanceProvider {
         )
     }
 
+    val fetchBusinessReviewsByAliasUseCase: FetchBusinessReviewsByAliasUseCase by lazy {
+        FetchBusinessReviewsByAliasUseCase(
+            appCoroutinesDispatcher,
+            businessesGateway
+        )
+    }
+
 }
