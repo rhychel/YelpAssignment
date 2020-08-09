@@ -16,6 +16,7 @@ interface BusinessDetailsContract {
         fun popupBusinessNotFoundDialog(name: String)
 
         fun showNameAndPhoto(name: String, photoUrl: String)
+        fun showCategories(categories: List<String>)
         fun showContactDetails(displayPhone: String)
         fun showAddress(address: Address)
         fun showHoursOfOperation(operations: List<OperatingHour>)

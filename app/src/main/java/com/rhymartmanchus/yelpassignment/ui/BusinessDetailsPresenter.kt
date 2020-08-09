@@ -42,6 +42,7 @@ class BusinessDetailsPresenter (
                     view.dismissLoadingDialog()
                     with(business) {
                         view.showNameAndPhoto(name, photoUrl)
+                        view.showCategories(categories.map { it.title })
                         view.showAddress(address)
                     }
                 }

@@ -15,14 +15,16 @@
         android:layout_height="wrap_content"
         app:elevation="4dp">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.SubtitleCollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
             app:expandedTitleTextAppearance="@style/ExpandedAppbar"
+            app:expandedSubtitleTextAppearance="@style/ExpandedAppbarSubtitle"
             app:collapsedTitleTextAppearance="@style/CollapsedAppbar"
+            app:collapsedSubtitleTextAppearance="@style/CollapsedAppbarSubtitle"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:toolbarId="@id/tbActionbar">
@@ -44,7 +46,7 @@
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_back" />
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.SubtitleCollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout

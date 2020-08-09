@@ -108,6 +108,10 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
 
     }
 
+    override fun showCategories(categories: List<String>) {
+        binder.collapsingToolbar.subtitle = categories.joinToString { it }
+    }
+
     override fun showContactDetails(displayPhone: String) {
         TODO("Not yet implemented")
     }
