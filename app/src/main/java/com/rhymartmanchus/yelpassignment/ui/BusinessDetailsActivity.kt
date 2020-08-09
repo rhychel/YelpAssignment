@@ -7,15 +7,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.ActivityBusinessDetailsBinding
 import com.rhymartmanchus.yelpassignment.domain.models.Address
+import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
 import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
 import com.rhymartmanchus.yelpassignment.domain.models.Rating
 import com.rhymartmanchus.yelpassignment.ui.viewmodels.AddressVM
 import com.rhymartmanchus.yelpassignment.ui.viewmodels.BaseBusinessDetailsVM
+import com.rhymartmanchus.yelpassignment.ui.viewmodels.ContactDetailsVM
 import com.squareup.picasso.Picasso
 import eu.davidea.flexibleadapter.FlexibleAdapter
 
@@ -48,7 +51,12 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
         binder.rvBusinessDetails.setHasFixedSize(true)
         binder.rvBusinessDetails.layoutManager = LinearLayoutManager(this)
         binder.rvBusinessDetails.adapter = adapter
-
+        binder.rvBusinessDetails.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         presenter.onViewCreated(
@@ -112,8 +120,14 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
         binder.collapsingToolbar.subtitle = categories.joinToString { it }
     }
 
-    override fun showContactDetails(displayPhone: String) {
-        TODO("Not yet implemented")
+    override fun showContactDetails(contactDetails: ContactDetails) {
+        adapter.addItem(
+            ContactDetailsVM(
+                contactDetails
+            ) {
+                presenter.onCallBusinessClicked()
+            }
+        )
     }
 
     override fun showAddress(address: Address) {
@@ -135,7 +149,9 @@ class BusinessDetailsActivity : AppCompatActivity(), BusinessDetailsContract.Vie
     }
 
     override fun callBusiness(phoneNumber: String) {
-        TODO("Not yet implemented")
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$phoneNumber")
+        startActivity(intent)
     }
 
     override fun openMap(latitude: Double, longitude: Double) {

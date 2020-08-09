@@ -1,6 +1,7 @@
 package com.rhymartmanchus.yelpassignment.ui
 
 import com.rhymartmanchus.yelpassignment.domain.models.Address
+import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
 import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
 import com.rhymartmanchus.yelpassignment.domain.models.Rating
 
@@ -17,7 +18,7 @@ interface BusinessDetailsContract {
 
         fun showNameAndPhoto(name: String, photoUrl: String)
         fun showCategories(categories: List<String>)
-        fun showContactDetails(displayPhone: String)
+        fun showContactDetails(contactDetails: ContactDetails)
         fun showAddress(address: Address)
         fun showHoursOfOperation(operations: List<OperatingHour>)
         fun showRating(rating: Rating)

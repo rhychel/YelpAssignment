@@ -44,6 +44,7 @@ class BusinessDetailsPresenter (
                         view.showNameAndPhoto(name, photoUrl)
                         view.showCategories(categories.map { it.title })
                         view.showAddress(address)
+                        view.showContactDetails(contactDetails)
                     }
                 }
             } catch (e: NetworkErrorException) {
