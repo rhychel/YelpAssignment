@@ -2,6 +2,7 @@ package com.rhymartmanchus.yelpassignment.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.rhymartmanchus.yelpassignment.InstanceProvider
@@ -40,6 +41,12 @@ class CategoriesActivity : AppCompatActivity(), CategoriesFragment.OnCategorySel
             .addToBackStack("level1")
             .commit()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == android.R.id.home)
+            onBackPressed()
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
