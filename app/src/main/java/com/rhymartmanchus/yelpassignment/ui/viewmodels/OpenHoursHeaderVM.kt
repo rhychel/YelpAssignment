@@ -4,12 +4,11 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.LayoutOpenhourItemBinding
-import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 
-class OpenHoursHeaderVM : BaseBusinessDetailsVM<OpenHoursHeaderVM.OpenHoursHeaderVH>() {
+class OpenHoursHeaderVM : BaseVM<OpenHoursHeaderVM.OpenHoursHeaderVH>() {
 
     inner class OpenHoursHeaderVH (
         view: View,

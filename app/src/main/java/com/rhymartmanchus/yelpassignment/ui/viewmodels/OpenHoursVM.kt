@@ -4,7 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.LayoutOpenhourItemBinding
-import com.rhymartmanchus.yelpassignment.domain.models.ContactDetails
 import com.rhymartmanchus.yelpassignment.domain.models.OperatingHour
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -12,7 +11,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 
 class OpenHoursVM (
     private val operatingHour: OperatingHour
-) : BaseBusinessDetailsVM<OpenHoursVM.OpenHoursVH>() {
+) : BaseVM<OpenHoursVM.OpenHoursVH>() {
 
     inner class OpenHoursVH (
         view: View,

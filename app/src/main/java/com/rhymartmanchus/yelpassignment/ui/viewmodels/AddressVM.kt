@@ -12,7 +12,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 class AddressVM (
     private val address: Address,
     private val showInMapClicked: () -> Unit
-) : BaseBusinessDetailsVM<AddressVM.AddressVH>() {
+) : BaseVM<AddressVM.AddressVH>() {
 
     inner class AddressVH (
         view: View,

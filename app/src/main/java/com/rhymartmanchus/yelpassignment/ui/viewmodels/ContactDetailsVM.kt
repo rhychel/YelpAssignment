@@ -12,7 +12,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 class ContactDetailsVM (
     private val contactDetails: ContactDetails,
     private val callNowClicked: () -> Unit
-) : BaseBusinessDetailsVM<ContactDetailsVM.ContactDetailsVH>() {
+) : BaseVM<ContactDetailsVM.ContactDetailsVH>() {
 
     inner class ContactDetailsVH (
         view: View,

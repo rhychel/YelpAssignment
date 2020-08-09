@@ -11,7 +11,7 @@ import eu.davidea.viewholders.FlexibleViewHolder
 
 class RatingVM (
     private val rating: Rating
-) : BaseBusinessDetailsVM<RatingVM.RatingVH>() {
+) : BaseVM<RatingVM.RatingVH>() {
 
     inner class RatingVH (
         view: View,

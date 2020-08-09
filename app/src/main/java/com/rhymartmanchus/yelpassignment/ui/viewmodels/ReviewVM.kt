@@ -4,9 +4,7 @@ import android.graphics.Bitmap
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rhymartmanchus.yelpassignment.R
-import com.rhymartmanchus.yelpassignment.databinding.LayoutRatingItemBinding
 import com.rhymartmanchus.yelpassignment.databinding.LayoutReviewItemBinding
-import com.rhymartmanchus.yelpassignment.domain.models.Rating
 import com.rhymartmanchus.yelpassignment.domain.models.Review
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -17,7 +15,7 @@ import java.lang.Exception
 
 class ReviewVM (
     private val review: Review
-) : BaseBusinessDetailsVM<ReviewVM.ReviewVH>() {
+) : BaseVM<ReviewVM.ReviewVH>() {
 
     inner class ReviewVH (
         view: View,
