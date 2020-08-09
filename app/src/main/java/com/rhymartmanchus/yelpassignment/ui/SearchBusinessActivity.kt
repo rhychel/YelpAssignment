@@ -135,6 +135,10 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
         binder.btnCategory.setOnClickListener {
             presenter.onCategoriesClicked()
         }
+        businessesAdapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
+            presenter.onBusinessClicked(businessesAdapter.getItem(position)!!.business)
+            true
+        }
     }
 
     fun hideKeyboard() {
@@ -311,6 +315,13 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     override fun proceedToCategories(category: Category?) {
         val intent = Intent(this, CategoriesActivity::class.java)
         startActivityForResult(intent, 1000)
+    }
+
+    override fun proceedToBusinessDetails(business: Business) {
+        val intent = Intent(this, BusinessDetailsActivity::class.java)
+        intent.putExtra("alias", business.alias)
+        intent.putExtra("name", business.name)
+        startActivity(intent)
     }
 
     override fun setCategoriesButtonText(categoryTitle: String) {

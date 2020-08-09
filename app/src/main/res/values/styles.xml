@@ -21,5 +21,14 @@
     <style name="AppTheme.SearchView" parent="Widget.AppCompat.Light.SearchView">
         <item name="searchIcon">@drawable/ic_location</item>
     </style>
+    
+    <style name="CollapsedAppbar" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
+    <style name="ExpandedAppbar" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

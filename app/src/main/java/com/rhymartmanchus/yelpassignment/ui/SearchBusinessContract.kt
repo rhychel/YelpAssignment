@@ -22,9 +22,10 @@ interface SearchBusinessContract {
         fun enlistResults(businesses: List<Business>)
         fun clearResults()
 
-        fun proceedToCategories(category: Category?)
-
         fun setCategoriesButtonText(categoryTitle: String)
+
+        fun proceedToCategories(category: Category?)
+        fun proceedToBusinessDetails(business: Business)
 
     }
 
@@ -41,14 +42,15 @@ interface SearchBusinessContract {
 
         fun onGettingLocationStarted()
 
-        fun onSearchClicked()
-
         fun takeSortingStrategy(sortingStrategy: SortingStrategy)
-
-        fun onCategoriesClicked()
 
         fun onCategorySelected()
         fun onSortingStrategySelected()
+
+        fun onCategoriesClicked()
+        fun onSearchClicked()
+
+        fun onBusinessClicked(business: Business)
 
     }
 

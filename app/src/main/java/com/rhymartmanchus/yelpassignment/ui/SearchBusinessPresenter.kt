@@ -64,6 +64,10 @@ class SearchBusinessPresenter (
         loadResults()
     }
 
+    override fun onBusinessClicked(business: Business) {
+        view.proceedToBusinessDetails(business)
+    }
+
     private fun loadResults() {
         view.hideSearchInvitation()
         view.showLoadingGroup()
