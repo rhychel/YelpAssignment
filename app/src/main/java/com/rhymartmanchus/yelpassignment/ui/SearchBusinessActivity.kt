@@ -1,11 +1,13 @@
 package com.rhymartmanchus.yelpassignment.ui
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentSender
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.view.KeyEvent
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -13,7 +15,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.PopupWindow
-import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -23,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.edwnmrtnz.locationprovider.LocationProviderHelper
 import com.edwnmrtnz.locationprovider.callback.OnLocationReceiver
+import com.edwnmrtnz.locationprovider.constant.LocationProvideRequest
 import com.edwnmrtnz.locationprovider.enums.LocationUpdateStatus
+import com.google.android.gms.common.api.ResolvableApiException
 import com.rhymartmanchus.yelpassignment.InstanceProvider
 import com.rhymartmanchus.yelpassignment.R
 import com.rhymartmanchus.yelpassignment.databinding.ActivitySearchBusinessBinding
@@ -31,7 +35,6 @@ import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 import com.rhymartmanchus.yelpassignment.ui.adapters.SortingStrategyAdapter
-import com.rhymartmanchus.yelpassignment.ui.fragments.CategoriesFragment
 import com.rhymartmanchus.yelpassignment.ui.viewmodels.BusinessItemVM
 import com.rhymartmanchus.yelpassignment.ui.viewmodels.ProgressItemVM
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -161,8 +164,8 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
             presenter.onCategoriesClicked()
         }
         businessesAdapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
-            val business = businessesAdapter.getItem(position)!! as Business
-            presenter.onBusinessClicked(business)
+            val businessVM = businessesAdapter.getItem(position)!! as BusinessItemVM
+            presenter.onBusinessClicked(businessVM.business)
             true
         }
     }
@@ -289,7 +292,10 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     }
 
     override fun onResolutionRequired(e: Exception) {
-        TODO("Not yet implemented")
+        try {
+            val rae: ResolvableApiException = e as ResolvableApiException
+            rae.startResolutionForResult(this, LocationProvideRequest.REQUEST_CHECK_SETTINGS)
+        } catch (sie: IntentSender.SendIntentException) { }
     }
 
     override fun onLocationReceiverStarted() {
@@ -297,7 +303,25 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     }
 
     override fun onFailed(locationUpdateStatus: LocationUpdateStatus) {
-        TODO("Not yet implemented")
+        if (locationUpdateStatus === LocationUpdateStatus.GPS_NOT_OPEN) {
+            AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle("Ooops!")
+                .setMessage("Please open your gps to start receiving location updates!")
+                .setPositiveButton("Ok") { _, _ ->
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+                .show()
+        }
+        if (locationUpdateStatus === LocationUpdateStatus.NOT_RESOLVABLE)
+            AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle("Ooops!")
+                .setMessage("Unfortunately, this device cannot gather your current location.")
+                .setPositiveButton("Ok") { _,_ ->
+                    finish()
+                }
+                .show()
     }
 
     override fun showLoadingGroup() {
