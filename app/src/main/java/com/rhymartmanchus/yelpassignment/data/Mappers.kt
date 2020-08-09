@@ -23,7 +23,8 @@ fun BusinessRaw.toDomain(): Business =
         ),
         Rating(rating, "$reviewCount Reviews"),
         emptyList(),
-        "${"%.2f".format(BigDecimal(distance/1000.0).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble())} km"
+        "${"%.2f".format(BigDecimal(distance/1000.0).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble())} km",
+        isClosed
     )
 
 fun CategoryRaw.toDomain(): Category =

@@ -37,5 +37,8 @@ data class BusinessRaw (
     val distance: Double,
 
     @SerializedName("rating")
-    val rating: Double
+    val rating: Double,
+
+    @SerializedName("is_closed")
+    val isClosed: Boolean
 )

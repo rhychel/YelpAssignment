@@ -58,6 +58,8 @@ class BusinessItemVM (
         }
 
         holder.binder.tvDistance.text = business.distance
+        holder.binder.tvOperatingStatus.text = if(business.isClosed) "CLOSED" else "OPEN"
+        holder.binder.tvOperatingStatus.setBackgroundResource(if(business.isClosed) R.drawable.bg_closed else R.drawable.bg_opened)
 
     }
 

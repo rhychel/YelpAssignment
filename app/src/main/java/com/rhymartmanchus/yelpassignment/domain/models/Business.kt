@@ -10,5 +10,6 @@ data class Business (
     val contactDetails: ContactDetails,
     val ratings: Rating,
     val deals: List<Deals>,
-    val distance: String
+    val distance: String,
+    val isClosed: Boolean
 )
