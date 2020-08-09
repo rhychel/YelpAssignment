@@ -81,4 +81,7 @@ dependencies {
     implementation "eu.davidea:flexible-adapter:5.1.0"
     implementation "eu.davidea:flexible-adapter-ui:1.0.0"
 
+//    Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
