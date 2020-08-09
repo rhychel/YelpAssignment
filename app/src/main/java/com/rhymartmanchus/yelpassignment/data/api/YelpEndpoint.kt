@@ -2,6 +2,7 @@ package com.rhymartmanchus.yelpassignment.data.api
 
 import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
+import com.rhymartmanchus.yelpassignment.data.api.models.ReviewRaw
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -14,6 +15,9 @@ interface YelpEndpoint {
 
     @GET("/v3/businesses/{id}")
     suspend fun getBusinessByAlias(@Path("id") alias: String): BusinessRaw
+
+    @GET("/v3/businesses/{id}/reviews")
+    suspend fun getReviewsByAlias(@Path("id") alias: String): List<ReviewRaw>
 
     @GET("/v3/categories")
     suspend fun getCategories(@Query("locale") locale: String): List<CategoryRaw>

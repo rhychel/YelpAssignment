@@ -2,10 +2,13 @@ package com.rhymartmanchus.yelpassignment.data
 
 import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
 import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
+import com.rhymartmanchus.yelpassignment.data.api.models.ReviewRaw
 import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
 import com.rhymartmanchus.yelpassignment.data.db.models.SubcategoryAttributedCategoryDB
 import com.rhymartmanchus.yelpassignment.domain.models.*
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.*
 
 private fun timeParser(time: String): String {
     val hour = time.substring(0, 2)
@@ -71,3 +74,20 @@ fun CategoryDB.toDomain(parents: List<String>): Category =
         title,
         parents
     )
+
+fun ReviewRaw.toDomain(): Review =
+    Review(
+        rating,
+        timeCreatedParser(timeCreated),
+        userName,
+        userImageUrl
+    )
+
+private fun timeCreatedParser(timeCreated: String): String {
+    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
+    val datetime = formatter.parse(timeCreated)
+
+    val display = SimpleDateFormat("MMM dd, yyyy hh:mma")
+    return display.format(datetime)
+}

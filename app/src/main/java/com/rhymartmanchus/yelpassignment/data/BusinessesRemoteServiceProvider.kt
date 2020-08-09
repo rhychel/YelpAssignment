@@ -2,12 +2,11 @@ package com.rhymartmanchus.yelpassignment.data
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.rhymartmanchus.yelpassignment.data.api.BusinessConverter
-import com.rhymartmanchus.yelpassignment.data.api.BusinessesConverter
-import com.rhymartmanchus.yelpassignment.data.api.YelpEndpoint
+import com.rhymartmanchus.yelpassignment.data.api.*
 import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
-import com.rhymartmanchus.yelpassignment.data.api.safeApiCall
+import com.rhymartmanchus.yelpassignment.data.api.models.ReviewRaw
 import com.rhymartmanchus.yelpassignment.domain.models.Business
+import com.rhymartmanchus.yelpassignment.domain.models.Review
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -25,6 +24,9 @@ class BusinessesRemoteServiceProvider (
                         BusinessesConverter()
                     )
                     .registerTypeAdapter(BusinessRaw::class.java, BusinessConverter())
+                    .registerTypeAdapter(object : TypeToken<MutableList<ReviewRaw>>(){}.type,
+                        ReviewsConverter()
+                    )
                     .create()
             )
         )
@@ -44,5 +46,12 @@ class BusinessesRemoteServiceProvider (
                 .create(YelpEndpoint::class.java)
                 .getBusinessByAlias(alias)
         }.toDomain()
+
+    override suspend fun fetchReviewsByAlias(alias: String): List<Review> =
+        safeApiCall {
+            provideRetrofitInstance()
+                .create(YelpEndpoint::class.java)
+                .getReviewsByAlias(alias)
+        }.map { it.toDomain() }
 
 }
