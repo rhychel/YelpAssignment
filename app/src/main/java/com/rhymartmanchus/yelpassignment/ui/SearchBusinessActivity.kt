@@ -203,7 +203,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
                 job = scope.launch {
                     delay(100L)
                     try {
-                        val result = geocoder.getFromLocationName(newText, 1)
+                        val result = withContext(Dispatchers.IO) { geocoder.getFromLocationName(newText, 1) }
                         if(result.isNotEmpty()) {
                             presenter.takeCoordinates(
                                 Coordinates(
