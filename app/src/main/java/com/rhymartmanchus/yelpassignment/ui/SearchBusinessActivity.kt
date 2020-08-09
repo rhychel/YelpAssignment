@@ -31,13 +31,20 @@ import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 import com.rhymartmanchus.yelpassignment.ui.adapters.SortingStrategyAdapter
+import com.rhymartmanchus.yelpassignment.ui.fragments.CategoriesFragment
 import com.rhymartmanchus.yelpassignment.ui.viewmodels.BusinessItemVM
+import com.rhymartmanchus.yelpassignment.ui.viewmodels.ProgressItemVM
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import kotlinx.coroutines.*
 import java.io.IOException
 
 
 class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View, OnLocationReceiver {
+
+    private companion object {
+        const val LIMIT = 20
+    }
 
     private val binder: ActivitySearchBusinessBinding by lazy {
         ActivitySearchBusinessBinding.inflate(layoutInflater)
@@ -86,7 +93,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
             }
         )
 
-    private val businessesAdapter = FlexibleAdapter(mutableListOf<BusinessItemVM>())
+    private val businessesAdapter = FlexibleAdapter(mutableListOf<AbstractFlexibleItem<*>>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,10 +103,28 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         bindListeners()
+        initializeRecyclerView()
+    }
+
+    private fun initializeRecyclerView() {
 
         binder.rvResults.setHasFixedSize(true)
         binder.rvResults.layoutManager = LinearLayoutManager(this)
         binder.rvResults.adapter = businessesAdapter
+
+        businessesAdapter.setEndlessScrollThreshold(LIMIT)
+        businessesAdapter.setEndlessScrollListener(object : FlexibleAdapter.EndlessScrollListener {
+            override fun noMoreLoad(newItemsSize: Int) {
+            }
+
+            override fun onLoadMore(lastPosition: Int, currentPage: Int) {
+                if(lastPosition % LIMIT == 0)
+                    presenter.onLoadMoreBusinesses()
+                else
+                    stopEndlessScrolling()
+            }
+
+        }, ProgressItemVM())
     }
 
     private fun bindListeners() {
@@ -136,7 +161,8 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
             presenter.onCategoriesClicked()
         }
         businessesAdapter.mItemClickListener = FlexibleAdapter.OnItemClickListener { _, position ->
-            presenter.onBusinessClicked(businessesAdapter.getItem(position)!!.business)
+            val business = businessesAdapter.getItem(position)!! as Business
+            presenter.onBusinessClicked(business)
             true
         }
     }
@@ -310,6 +336,22 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
 
     override fun clearResults() {
         businessesAdapter.clear()
+    }
+
+    override fun appendResults(businesses: List<Business>) {
+        businessesAdapter.onLoadMoreComplete(businesses.map {
+            BusinessItemVM(it)
+        })
+    }
+
+    override fun stopEndlessScrolling() {
+        businessesAdapter.onLoadMoreComplete(null)
+    }
+
+    override fun showProgressItem() {
+        businessesAdapter.addItem(
+            ProgressItemVM()
+        )
     }
 
     override fun proceedToCategories(category: Category?) {

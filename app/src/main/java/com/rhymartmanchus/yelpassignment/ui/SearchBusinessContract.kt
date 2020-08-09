@@ -3,6 +3,7 @@ package com.rhymartmanchus.yelpassignment.ui
 import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
+import com.rhymartmanchus.yelpassignment.domain.models.SubcategoryAttributedCategory
 
 interface SearchBusinessContract {
 
@@ -21,6 +22,9 @@ interface SearchBusinessContract {
 
         fun enlistResults(businesses: List<Business>)
         fun clearResults()
+        fun appendResults(businesses: List<Business>)
+        fun stopEndlessScrolling()
+        fun showProgressItem()
 
         fun setCategoriesButtonText(categoryTitle: String)
 
@@ -51,6 +55,8 @@ interface SearchBusinessContract {
         fun onSearchClicked()
 
         fun onBusinessClicked(business: Business)
+
+        fun onLoadMoreBusinesses()
 
     }
 

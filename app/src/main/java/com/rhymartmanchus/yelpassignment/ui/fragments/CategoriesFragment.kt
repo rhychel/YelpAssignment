@@ -22,7 +22,6 @@ class CategoriesFragment (
 
     private companion object {
         const val LIMIT = 20
-        var PAGE = 0
     }
 
     interface OnCategorySelectedListener {
@@ -109,7 +108,6 @@ class CategoriesFragment (
     }
 
     override fun appendCategories(categories: List<SubcategoryAttributedCategory>) {
-        PAGE++
         adapter.onLoadMoreComplete(categories.map { CategoryItemVM(it) })
     }
 

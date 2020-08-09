@@ -22,6 +22,11 @@ class SearchBusinessPresenter (
     private val searchBusinessesInCategoryByKeywordUseCase: SearchBusinessesInCategoryByKeywordUseCase
 ) : SearchBusinessContract.Presenter, CoroutineScope {
 
+    private companion object {
+        const val LIMIT = 20
+    }
+    private var OFFSET = 0
+
     private val job: Job = SupervisorJob()
     override val coroutineContext: CoroutineContext
         get() = job + dispatcher.io()
@@ -30,8 +35,6 @@ class SearchBusinessPresenter (
     private var keyword: String? = null
     private var coordinates: Coordinates? = null
     private var sortingStrategy: SortingStrategy = SortingStrategy.Default
-    private var limit: Int = 20
-    private var offset: Int = 0
 
     override fun setNoCoordinates() {
         coordinates = null
@@ -68,7 +71,23 @@ class SearchBusinessPresenter (
         view.proceedToBusinessDetails(business)
     }
 
+    override fun onLoadMoreBusinesses() {
+        OFFSET += LIMIT
+        launch {
+            try {
+                displaySearchResults()
+            } catch (e: NoDataException) {
+                withContext(dispatcher.ui()) {
+                    view.stopEndlessScrolling()
+                }
+            } catch (e: NetworkErrorException) {
+                // network issue
+            }
+        }
+    }
+
     private fun loadResults() {
+        OFFSET = 0
         view.hideNoResults()
         view.hideSearchInvitation()
         view.showLoadingGroup()
@@ -123,7 +142,10 @@ class SearchBusinessPresenter (
 
     private suspend fun renderBusinessesResults(businesses: List<Business>) {
         withContext(dispatcher.ui()) {
-            view.enlistResults(businesses)
+            if(OFFSET > 0)
+                view.appendResults(businesses)
+            else
+                view.enlistResults(businesses)
         }
     }
 
@@ -132,8 +154,8 @@ class SearchBusinessPresenter (
             SearchBusinessesInCategoryByKeywordUseCase.Params(
                 keyword!!,
                 category!!,
-                limit,
-                offset,
+                LIMIT,
+                OFFSET,
                 coordinates!!.latitude,
                 coordinates!!.longitude,
                 sortingStrategy
@@ -147,8 +169,8 @@ class SearchBusinessPresenter (
         val result = searchBusinessesByKeywordUseCase.execute(
             SearchBusinessesByKeywordUseCase.Params(
                 keyword!!,
-                limit,
-                offset,
+                LIMIT,
+                OFFSET,
                 coordinates!!.latitude,
                 coordinates!!.longitude,
                 sortingStrategy
@@ -162,8 +184,8 @@ class SearchBusinessPresenter (
         val result = fetchBusinessesInCategoryByLocationUseCase.execute(
             FetchBusinessesInCategoryByLocationUseCase.Params(
                 category!!,
-                limit,
-                offset,
+                LIMIT,
+                OFFSET,
                 coordinates!!.latitude,
                 coordinates!!.longitude,
                 sortingStrategy
@@ -176,8 +198,8 @@ class SearchBusinessPresenter (
     private suspend fun fetchBusinesses() {
         val result = fetchBusinessesByLocationUseCase.execute(
             FetchBusinessesByLocationUseCase.Params(
-                limit,
-                offset,
+                LIMIT,
+                OFFSET,
                 coordinates!!.latitude,
                 coordinates!!.longitude,
                 sortingStrategy
