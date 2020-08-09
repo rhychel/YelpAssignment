@@ -20,6 +20,7 @@ suspend fun <T> safeApiCall(request: suspend () -> T): T {
         val errorJsonObject = jsonObject.getJSONObject("error")
 
         throw HttpRequestException(
+            e.code(),
             errorJsonObject.getString("code"),
             errorJsonObject.getString("description"),
             errorJsonObject.getString("field")

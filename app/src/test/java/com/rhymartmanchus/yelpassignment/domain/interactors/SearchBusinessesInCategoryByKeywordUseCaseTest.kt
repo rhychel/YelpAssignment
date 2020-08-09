@@ -212,6 +212,7 @@ class SearchBusinessesInCategoryByKeywordUseCaseTest {
         `when`(gateway.searchBusinesses(ArgumentMatchers.anyMap()))
             .then {
                 throw HttpRequestException(
+                    400,
                     "VALIDATION_ERROR",
                     "error message",
                     null

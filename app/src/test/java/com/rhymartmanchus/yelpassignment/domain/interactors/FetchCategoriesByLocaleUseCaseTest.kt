@@ -97,6 +97,7 @@ class FetchCategoriesByLocaleUseCaseTest {
         `when`(gateway.fetchCategories(any()))
             .then {
                 throw HttpRequestException(
+                    400,
                     "Validation_error",
                     "error message",
                     null

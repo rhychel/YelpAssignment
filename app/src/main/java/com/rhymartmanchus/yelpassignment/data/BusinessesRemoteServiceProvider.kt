@@ -2,6 +2,7 @@ package com.rhymartmanchus.yelpassignment.data
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.rhymartmanchus.yelpassignment.data.api.BusinessConverter
 import com.rhymartmanchus.yelpassignment.data.api.BusinessesConverter
 import com.rhymartmanchus.yelpassignment.data.api.YelpEndpoint
 import com.rhymartmanchus.yelpassignment.data.api.models.BusinessRaw
@@ -23,6 +24,7 @@ class BusinessesRemoteServiceProvider (
                     .registerTypeAdapter(object : TypeToken<MutableList<BusinessRaw>>(){}.type,
                         BusinessesConverter()
                     )
+                    .registerTypeAdapter(BusinessRaw::class.java, BusinessConverter())
                     .create()
             )
         )
@@ -35,5 +37,12 @@ class BusinessesRemoteServiceProvider (
                 .create(YelpEndpoint::class.java)
                 .getBusinesses(params)
         }.map { it.toDomain() }
+
+    override suspend fun fetchByAlias(alias: String): Business =
+        safeApiCall {
+            provideRetrofitInstance()
+                .create(YelpEndpoint::class.java)
+                .getBusinessByAlias(alias)
+        }.toDomain()
 
 }

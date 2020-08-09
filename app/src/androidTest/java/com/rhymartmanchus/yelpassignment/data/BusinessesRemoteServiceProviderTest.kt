@@ -59,4 +59,11 @@ class BusinessesRemoteServiceProviderTest {
 
         Unit
     }
+
+    @Test
+    fun fetchBusinessByAlias() = runBlocking {
+        val result = businessesRemoteService.fetchByAlias("appleberry-iphone-and-mac-repair-new-york-4")
+
+        assertEquals("appleberry-iphone-and-mac-repair-new-york-4", result.alias)
+    }
 }

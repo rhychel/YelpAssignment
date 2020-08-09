@@ -10,4 +10,8 @@ class BusinessesRepository (
     override suspend fun searchBusinesses(params: Map<String, String>): List<Business> =
         remote.fetchBusinesses(params)
 
+    override suspend fun fetchByAlias(alias: String): Business {
+        TODO("Not yet implemented")
+    }
+
 }
