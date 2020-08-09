@@ -5,9 +5,11 @@ import com.rhymartmanchus.yelpassignment.data.api.models.CategoryRaw
 import com.rhymartmanchus.yelpassignment.data.db.models.CategoryDB
 import com.rhymartmanchus.yelpassignment.data.db.models.SubcategoryAttributedCategoryDB
 import com.rhymartmanchus.yelpassignment.domain.models.*
+import java.math.BigDecimal
 
 fun BusinessRaw.toDomain(): Business =
     Business(
+        id,
         name,
         imageUrl,
         categories.map { it.toDomain() },
@@ -19,8 +21,9 @@ fun BusinessRaw.toDomain(): Business =
             phone,
             displayPhone
         ),
-        Rating(4.5, "Reviews from 1000 users"),
-        emptyList()
+        Rating(rating, "$reviewCount Reviews"),
+        emptyList(),
+        "${"%.2f".format(BigDecimal(distance/1000.0).setScale(2, BigDecimal.ROUND_HALF_EVEN).toDouble())} km"
     )
 
 fun CategoryRaw.toDomain(): Category =

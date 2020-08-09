@@ -51,18 +51,20 @@ class SearchBusinessPresenter (
 
     override fun takeCategory(category: Category) {
         this.category = category
-        view.setCategoriesButtonText(category.title)
     }
 
     override fun invalidateCategory() {
         category = null
-        view.setCategoriesButtonText("All Categories")
     }
 
     override fun onGettingLocationStarted() {
     }
 
     override fun onSearchClicked() {
+        loadResults()
+    }
+
+    private fun loadResults() {
         view.hideSearchInvitation()
         view.showLoadingGroup()
         launch {
@@ -82,12 +84,9 @@ class SearchBusinessPresenter (
         }
     }
 
-    override fun takeSortingStrategy(sortingStrategy: SortingStrategy) {
-        this.sortingStrategy = sortingStrategy
-    }
-
     private suspend fun displayNoResults() {
         withContext(dispatcher.ui()) {
+            view.hideSortingButton()
             view.showNoResults()
             view.hideLoadingGroup()
         }
@@ -111,6 +110,7 @@ class SearchBusinessPresenter (
             }
         }
         withContext(dispatcher.ui()) {
+            view.showSortingButton()
             view.hideLoadingGroup()
         }
     }
@@ -181,8 +181,21 @@ class SearchBusinessPresenter (
         renderBusinessesResults(result.businesses)
     }
 
+    override fun takeSortingStrategy(sortingStrategy: SortingStrategy) {
+        this.sortingStrategy = sortingStrategy
+    }
+
     override fun onCategoriesClicked() {
         view.proceedToCategories(category)
+    }
+
+    override fun onCategorySelected() {
+        view.setCategoriesButtonText(category?.title ?: "All Categories")
+        loadResults()
+    }
+
+    override fun onSortingStrategySelected() {
+        loadResults()
     }
 
 }

@@ -16,6 +16,9 @@ interface SearchBusinessContract {
 
         fun hideSearchInvitation()
 
+        fun showSortingButton()
+        fun hideSortingButton()
+
         fun enlistResults(businesses: List<Business>)
 
         fun proceedToCategories(category: Category?)
@@ -42,6 +45,9 @@ interface SearchBusinessContract {
         fun takeSortingStrategy(sortingStrategy: SortingStrategy)
 
         fun onCategoriesClicked()
+
+        fun onCategorySelected()
+        fun onSortingStrategySelected()
 
     }
 

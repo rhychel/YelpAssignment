@@ -27,6 +27,8 @@ import com.rhymartmanchus.yelpassignment.domain.SortingStrategy
 import com.rhymartmanchus.yelpassignment.domain.models.Business
 import com.rhymartmanchus.yelpassignment.domain.models.Category
 import com.rhymartmanchus.yelpassignment.ui.adapters.SortingStrategyAdapter
+import com.rhymartmanchus.yelpassignment.ui.viewmodels.BusinessItemVM
+import eu.davidea.flexibleadapter.FlexibleAdapter
 import kotlinx.coroutines.*
 import java.io.IOException
 
@@ -62,7 +64,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
     private val popupWindow by lazy {
         PopupWindow(this)
     }
-    private val adapter =
+    private val sortingStrategyAdapter =
         SortingStrategyAdapter(
             listOf(
                 SortingStrategy.Default,
@@ -73,19 +75,29 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
                 SortingStrategyAdapter.OnSortingStrategySelected {
                 override fun onSelected(strategy: SortingStrategy) {
                     presenter.takeSortingStrategy(strategy)
+                    presenter.onSortingStrategySelected()
                     popupWindow.dismiss()
                 }
             }
         )
+
+    private val businessesAdapter = FlexibleAdapter(mutableListOf<BusinessItemVM>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binder.root)
 
         setSupportActionBar(binder.tbToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        bindListeners()
+
+        binder.rvResults.setHasFixedSize(true)
+        binder.rvResults.layoutManager = LinearLayoutManager(this)
+        binder.rvResults.adapter = businessesAdapter
+    }
+
+    private fun bindListeners() {
         binder.etKeyword.addTextChangedListener {
             presenter.takeSearchKeyword(it?.toString() ?: "")
         }
@@ -99,7 +111,7 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(this@SearchBusinessActivity)
             }
-            rvSortingOptions.adapter = adapter
+            rvSortingOptions.adapter = sortingStrategyAdapter
 
             popupWindow.contentView = view
             popupWindow.height = 500
@@ -241,8 +253,18 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
         binder.tvInvitation.visibility = View.GONE
     }
 
+    override fun showSortingButton() {
+        binder.ibtnSortBy.visibility = View.VISIBLE
+    }
+
+    override fun hideSortingButton() {
+        binder.ibtnSortBy.visibility = View.GONE
+    }
+
     override fun enlistResults(businesses: List<Business>) {
-        Log.e("REsults", businesses.joinToString { it.name })
+        businessesAdapter.updateDataSet(businesses.map {
+            BusinessItemVM(it)
+        })
     }
 
     override fun proceedToCategories(category: Category?) {
@@ -263,6 +285,8 @@ class SearchBusinessActivity : AppCompatActivity(), SearchBusinessContract.View,
                     presenter.invalidateCategory()
                 else
                     presenter.takeCategory(category)
+
+                presenter.onCategorySelected()
             }
         }
     }

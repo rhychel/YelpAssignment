@@ -34,5 +34,8 @@ data class BusinessRaw (
     val displayPhone: String,
 
     @SerializedName("distance")
-    val distance: Double
+    val distance: Double,
+
+    @SerializedName("rating")
+    val rating: Double
 )
